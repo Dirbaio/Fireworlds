@@ -7,7 +7,7 @@ class LevelScene;
 #include "Scene.h"
 #include "Actor.h"
 #include <string>
-#include "level.h"
+#include "Level.h"
 
 using namespace std;
 

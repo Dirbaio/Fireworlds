@@ -12,8 +12,7 @@
 #include "LevelScene.h"
 #include "LevelSelectScene.h"
 #include "CreditsScene.h"
-#include "EditorScene.h"
-#include "level.h"
+#include "Level.h"
 #include <fat.h>
 
 #include <stdio.h>

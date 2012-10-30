@@ -1,0 +1,53 @@
+TODO:
+
+
+Niveles de tutorial
+Coal
+Enemigos
+Puerta + interruptor
+Plataformas hielo
+Hacer que se pueda guardar
+Añadir mierdas.
+Añadir final juego.
+Añadir videos intro.
+Bosses?
+
+
+Changelog
+
+Beta 1
+	- First release
+
+Beta 2
+	- Fixed game launching but crashing later when libfat can't init (for example in no$gba)
+	- Fixed getting stuck in the insides of corners in most cases
+	- Added button navigation to menus
+	- Fixed having another fireball selected when another one you aren't controlling dies or exits.
+	- Made physics a bit calmer, especially the pink bouncy things.
+	- Added help on the top screen
+	- Fixed many tiny graphical bugs
+	- Completely recoded the collision system. It's waay more flexible now.
+	- Added Ice Blocks (Used in only one level for now)
+	- Added hints and help on the top screen!
+	- More levels. The first ones are supposed to serve as a tutorial.
+
+Beta 3
+	- Last update before final release!
+	- Annoying corner bug fixed, now completely.
+	- Fixed falling through ice blocks sometimes.
+	- Added intro video
+	- Zoomed out a bit for more visibility
+	- Improved the tutorial levels.
+	- Added speed button! Big levels are no longer boring!
+	- ROM no longer needs to be in root.
+	- Added fireboxes!
+	- Added switches!
+	- Bug fixes! Collision fixes!
+	- Added awesome intro video (Thanks to my friend Sorington!)
+	- Added pause button
+	- 28 levels!
+
+MUSICAS
+
+	- Hardtech: Niveles largos, qe hay qe recoger energias
+	- Latenight: 

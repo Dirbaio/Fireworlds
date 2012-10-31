@@ -55,14 +55,18 @@ renderLoop:
 	movmi	R5, #0	
 	strh	R5, [R9, #0x20]
 	
-	ldrb	R2, [R9, #0x1D]
-	cmp 	R2, #2
+	@ === RED color effect
+	cmp 	R12, #2
 	bne		fx3
 
-	LDRH	R1, [R9, #0x18]
-	SUB		R1, R1, #10
-	SUB		R1, R1, #5*256
-	STRH	R1, [R9, #0x18]
+	LDRB	R0, [R9, #0x18]
+	LDRB	R1, [R9, #0x19]
+	SUBS	R0, R0, #10
+	MOVMI	R0, #0
+	SUBS	R1, R1, #5
+	MOVMI	R1, #0
+	STRB	R0, [R9, #0x18]
+	STRB	R1, [R9, #0x19]
 
 fx3:
 	
@@ -130,12 +134,12 @@ normalParticle:
 	SUBS	R2, R2, R7		@x -= xCam
 	MOV		R1, R2			@R1 = abs(x)
 	RSBMI   R1, R2, #0
-	MOV		R0, R1, LSR#14
+	MOV		R0, R1, LSR#13
 
 	SUBs	R3, R3, R8		@Same for y
 	MOV		R1, R3
 	RSBMI   R1, R3, #0
-	ORRS	R0, R0, R1, LSR#14
+	ORRS	R0, R0, R1, LSR#12
 	
 	MOVNE 	R0, #0
 	STRNEH 	R0, [R9, #0x20] @Set life to 0

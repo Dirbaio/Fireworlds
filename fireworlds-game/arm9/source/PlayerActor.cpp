@@ -224,6 +224,7 @@ bool PlayerActor::win()
 	if(!world->energyCompleted()) return false;
 	timeToDie = 70;
 	dieWin = true;
+	collisionType = COLLISION_NONE;
 	return true;
 }
 

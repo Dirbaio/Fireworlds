@@ -55,15 +55,15 @@ void FireActor::tick()
 	if(activeFire)
 	{
 		int rad = 15+t;
-		for(int i = 0; i < 20; i++)
+		for(int i = 0; i < 10; i++)
 		{
 			int ang = irand(DEGREES_IN_CIRCLE);
 			f32 cos = fcos(ang);
 			f32 sin = fsin(ang);
 			cos -= 0.5;
 			cos += cos/2;
-			f32 xx = vx;
-			f32 yy = vy;
+			f32 xx = vx-gx;
+			f32 yy = vy-gy;
 			vecNormalize(xx, yy);
 			xx *= rad;
 			yy *= rad;
@@ -72,8 +72,8 @@ void FireActor::tick()
 			f32 pos = -vecProjectionLen(vx, vy, dx, dy)/rad+0.1;
 //			if(pos<0) continue;
 			Particle *p2 = sc->addParticle10();
-			p2->vx = (vx + yy*sin*pos + frand(0.4)).tof5();
-			p2->vy = (vy - xx*sin*pos + frand(0.4)).tof5();
+			p2->vx = (vx - gx*2 + yy*sin*pos + frand(0.4)).tof5();
+			p2->vy = (vy - gy*2 - xx*sin*pos + frand(0.4)).tof5();
 			p2->x = (x+dx).tof5();
 			p2->y = (y+dy).tof5();
 //			p2->vx2 = (-vx - yy*sin/16).tof5();
@@ -84,7 +84,7 @@ void FireActor::tick()
 			p2->g = 0;
 			p2->b = 100;
 			p2->a = 18;
-			p2->sizePerLife = 35;
+			p2->sizePerLife = 45;
 			p2->effect = FX_NONE;
 		}
 		
@@ -100,8 +100,8 @@ void FireActor::tick()
 			p2->x = (x+dx).tof5();
 			p2->y = (y+dy).tof5();
 
-			p2->vx = (vx/2 - dx/8 + frand(0.4)).tof5();
-			p2->vy = (vy/2 - dy/8 + frand(0.4)).tof5();
+			p2->vx = (vx/2 - gx - dx/8 + frand(0.4)).tof5();
+			p2->vy = (vy/2 - gy - dy/8 + frand(0.4)).tof5();
 
 			if(t > 15)
 			{

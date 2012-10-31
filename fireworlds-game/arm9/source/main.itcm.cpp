@@ -146,7 +146,7 @@ void renderScenePerspective()
 	glMatrixMode(GL_MODELVIEW);
 
 	glPushMatrix();
-	glTranslatef32(0, 0, -10000);
+	glTranslatef32(0, -200, -10000);
 	glRotateXi(700);
 	sc->renderPerspective();
 	glPopMatrix(1);
@@ -231,6 +231,15 @@ void error(const char* msg)
 	iprintf(msg);
 	while(1)
 		swiWaitForVBlank();
+}
+
+f32 test_rand1()
+{
+	return frand(37);
+}
+f32 test_rand2()
+{
+	return frand(16);
 }
 
 int main()
@@ -326,11 +335,7 @@ int main()
 	swiWaitForVBlank();
 	srand(0);
 	
-	sc = new LevelScene(2);
-//	sc = new LevelSelectScene();
-//	sc = new TestScene();
-//	sc = new CreditsScene(true);
-//	sc = new EditorScene(5);
+	sc = new IntroScene();
 	sc->onSceneBegin();
 	
 	glLight(0, RGB15(20,20,20) , floattov10(1), floattov10(-1.0), -1);
@@ -338,8 +343,8 @@ int main()
 	irqSet(IRQ_VBLANK, VblankHandler);
 	
 	bgHide(4);
-	bgShow(4);
-	debugShown = true;
+//	bgShow(4);
+//	debugShown = true;
 	
 	keysSetRepeat(20, 6);
 	while(1)

@@ -23,7 +23,7 @@ class Particle
 	int vy; //0xC
 	int vx2; //0x10
 	int vy2; //0x14
-	s8 r, g, b, a; //0x18
+	s8 g, b, r, a; //0x18
 	s8 sizePerLife; //0x1C
 	u8 effect;		//0x1D
 	u8 empty;		//0x1E

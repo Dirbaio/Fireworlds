@@ -326,7 +326,7 @@ int main()
 	swiWaitForVBlank();
 	srand(0);
 	
-	sc = new LevelScene(36);
+	sc = new LevelScene(2);
 //	sc = new LevelSelectScene();
 //	sc = new TestScene();
 //	sc = new CreditsScene(true);

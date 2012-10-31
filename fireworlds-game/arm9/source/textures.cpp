@@ -35,10 +35,12 @@ void renderChar(char c, f32 x, f32 y, f32 sz)
 	glEnd();
 }
 
-
+int oldTex = -1;
 void setTexture(int nTexture)
 {
-	glBindTexture(0, textureIDS[nTexture]);
+	if(nTexture != oldTex)
+		glBindTexture(0, textureIDS[nTexture]);
+	oldTex = nTexture;
 	
 //	if( textures[nTexture].format != GL_RGB )
 //		glColorTable(textures[nTexture].format, textures[nTexture].pal_addr);

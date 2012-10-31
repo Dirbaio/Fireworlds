@@ -42,27 +42,13 @@ int particlePolyID = 0;
 
 void ParticleBuffer::tick(Scene* sc)
 {
-	xParticleOffs = sc->xCam.tof5();
-	yParticleOffs = sc->yCam.tof5();
-/*	if(ptsBegin > ptsEnd)
-	{
-		particleMove(&pts[ptsBegin], &pts[bufferSize]);
-		particleMove(&pts[0], &pts[ptsEnd]);
-	}
-	else
-		particleMove(&pts[ptsBegin], &pts[ptsEnd]);
-	*/
-	while(ptsBegin != ptsEnd && pts[ptsBegin].life <= 0)
-	{
-		ptsBegin++;
-		ptsCount--;
-		if(ptsBegin == bufferSize) ptsBegin = 0;
-	}
 }
 
 
 void ParticleBuffer::render(Scene* sc, int& z)
 {
+	xParticleOffs = sc->xCam.tof5();
+	yParticleOffs = sc->yCam.tof5();
 	if(ptsBegin > ptsEnd)
 	{
 		particleRender(&pts[ptsBegin], &pts[bufferSize]);
@@ -71,13 +57,12 @@ void ParticleBuffer::render(Scene* sc, int& z)
 	else
 		particleRender(&pts[ptsBegin], &pts[ptsEnd]);
 
-/*
-	for(int i = ptsBegin; i != ptsEnd;)
+	while(ptsBegin != ptsEnd && pts[ptsBegin].life <= 0)
 	{
-		pts[i].render(++z, sc);
-		i++;
-		if(i == bufferSize) i = 0;
-	}*/
+		ptsBegin++;
+		ptsCount--;
+		if(ptsBegin == bufferSize) ptsBegin = 0;
+	}
 }
 
 Particle* ParticleBuffer::addParticle()

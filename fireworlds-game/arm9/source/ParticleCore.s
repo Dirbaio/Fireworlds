@@ -37,9 +37,9 @@ renderLoop:
 	ADD		R0, R0, R2		@x += vx
 	ADD		R1, R1, R3		@y += vy
 
-	LDRB	R4, [R9, #0x1D]
-	CMP 	R4, #4
-	CMPNE	R4, #5
+	LDRB	R12, [R9, #0x1D] @FX
+	CMP 	R12, #4
+	CMPNE	R12, #5
 	BEQ noFriction2
 	ADD		R4, R2, #8
 	ADD		R5, R3, #8
@@ -49,65 +49,42 @@ renderLoop:
 	STMIA	R9, {R0, R1, R2, R3} @store x, y, vx, vy
 
 
-	@===
-
-	
-	ldrsh 	R2, [R9, #0x20]
-	subs	R2, R2, #1		@life--
-	movmi	R2, #0	
-	strh	R2, [R9, #0x20]
+	@=== R5 Life
+	ldrsh 	R5, [R9, #0x20]
+	subs	R5, R5, #1		@life--
+	movmi	R5, #0	
+	strh	R5, [R9, #0x20]
 	
 	ldrb	R2, [R9, #0x1D]
 	cmp 	R2, #2
 	bne		fx3
-	
-	ldrb	R4, [R9, #0x18]
-	ldrb	R5, [R9, #0x19]
-	ldrb	R1, [R9, #0x1A]
-	add 	R4, R4, #10
-	cmp 	R4, #256
-	movge	R4, #255
-	subs	R5, R5, #10
-	movmi	R5, #0
-	subs	R1, R1, #5
-	movmi	R1, #0
-	strb	R4, [R9, #0x18]
-	strb	R5, [R9, #0x19]
-	strb	R1, [R9, #0x1A]
+
+	LDRH	R1, [R9, #0x18]
+	SUB		R1, R1, #10
+	SUB		R1, R1, #5*256
+	STRH	R1, [R9, #0x18]
+
 fx3:
-	cmp R2, #3
-	bne fx0
-	ldrb	R4, [R9, #0x1B]
-	sub		R4, R4, #1
-	strb	R4, [R9, #0x1B]
-	
-fx0:	
-	
-	
-	@=== Set texture
-	ldrb 	R0, [R9, #0x1F]
-	bl _Z10setTexturei
 	
 	@=== Set color
-	ldrb 	R0, [R9, #0x18]
-	ldrb 	R1, [R9, #0x19]
-	ldrb 	R2, [R9, #0x1A]
-	mov 	R0, R0, LSR #3
-	mov 	R1, R1, LSR #3
-	mov 	R2, R2, LSR #3
-	ORR 	R0, R1, LSL #5
-	ORR 	R0, R2, LSL #10
-	str 	R0, [R11, #0x80]
+	LDR 	R0, [R9, #0x18]  @0xAARRBBGG
+	MOV		R1, R0, LSR#16+3
+	AND		R1, R1, #31
+	MOV		R2, R0, LSR#3
+	AND		R2, R2, #31
+	ORR		R1, R1, R2, LSL#5
+	MOV		R2, R0, LSR#11
+	AND		R2, R2, #31
+	ORR		R1, R1, R2, LSL#10
+	STR 	R1, [R11, #0x80]
+
 	
 	@=== R3: Calc alpha
-	LDRH 	R5, [R9, #0x20] @Life
-
-	ldrb 	R2, [R9, #0x1D] @fx
-	cmp 	R2, #3
+	MOV		R3, R0, LSR#24 @ Alpha
+	CMP		R12, #3
 	moveq	R3, R5, LSR #6
 	addeq	R3, R3, #2
-	ldrneb 	R3, [R9, #0x1B] @alpha
-	cmp 	R2, #5
+	CMP 	R12, #5
 	moveq	R3, R5, LSR #4
 	addeq	R3, R3, #3
 	
@@ -117,15 +94,21 @@ fx0:
 	ORR		R0, R0, R6, LSL#24		@Poly ID
 	str		R0, [R11, #0xA4]		@Store it.
 	
-	ldrb 	R2, [R9, #0x1D] @fx
-	cmp 	R2, #1
+	cmp 	R12, #1
 	bne		normalParticle
+	@=== Set texture
+	ldrb 	R0, [R9, #0x1F]
+	bl _Z10setTexturei
 	mov 	R0, R9
 	mov		R1, R11
-@	bl		_ZN8Particle10renderBlurV
+@	bl		_ZN8Particle10renderBlurEv
 	b 		badParticle
 	
 normalParticle:
+	@=== Set texture
+	ldrb 	R0, [R9, #0x1F]
+	bl _Z10setTexturei
+
 	@=== Begin vtxs
 	mov		R0, #1
 	str		R0, [R11, #0x100]
@@ -142,23 +125,20 @@ normalParticle:
 	SUB		R2, R2, R5 		@x -= size
 	SUB		R3, R3, R5		@y -= size
 
+	@	R0 = 0, set previously.
+	
 	SUBS	R2, R2, R7		@x -= xCam
-
 	MOV		R1, R2			@R1 = abs(x)
-	RSBMI   R1, R2, #0		
-	CMP		R1, #384*32		@if(R1 > 192px)
-	movge	R0, #1			@set life  to 0
-
+	RSBMI   R1, R2, #0
+	MOV		R0, R1, LSR#14
 
 	SUBs	R3, R3, R8		@Same for y
 	MOV		R1, R3
 	RSBMI   R1, R3, #0
-	CMP		R1, #256*32
-	movge	R0, #1
-
-	cmp 	R0, #1
-	moveq 	R0, #0
-	streqh 	R0, [R9, #0x20]
+	ORRS	R0, R0, R1, LSR#14
+	
+	MOVNE 	R0, #0
+	STRNEH 	R0, [R9, #0x20] @Set life to 0
 	
 	ADD		R5, R5, R5 @diameter, not radius!
 
@@ -194,9 +174,8 @@ normalParticle:
 badParticle:	
 
 	@====
-	add		R6, R6, #1
-	cmp		R6, #50
-	moveq	R6, #0
+	SUBS	R6, R6, #1
+	MOVMI	R6, #49
 
 	add		R9, R9, #0x24 	@Next particle.
 	

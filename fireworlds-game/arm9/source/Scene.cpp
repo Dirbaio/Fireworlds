@@ -13,6 +13,7 @@ Scene::Scene()
 	xCam = 0;
 	yCam = 0;
 	
+	buffer10 = new ParticleBuffer(800, 10, false, NULL);
 	buffer20 = new ParticleBuffer(800, 20, false, NULL);
 	buffer60b = new ParticleBuffer(1000, 60, false, NULL);
 	buffer60 = new ParticleBuffer(300, 60, true, buffer60b);
@@ -49,6 +50,7 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	delete buffer10;
 	delete buffer20;
 	delete buffer60;
 	delete buffer60b;
@@ -163,6 +165,7 @@ void Scene::toWorldCoords(f32& dx, f32& dy, f32 x, f32 y)
 
 void Scene::tickParticles()
 {
+	buffer10->tick(this);
 	buffer20->tick(this);
 	buffer60->tick(this);
 	buffer60b->tick(this);
@@ -178,6 +181,7 @@ void Scene::render()
 	int z = 0;
 
 	buffer1000->render(this, z);
+	buffer10->render(this, z);
 	buffer20->render(this, z);
 	buffer60->render(this, z);
 	buffer60b->render(this, z);
@@ -203,6 +207,10 @@ void Scene::renderUnrotated()
 }
 
 
+Particle* Scene::addParticle10()
+{
+	return buffer10->addParticle();
+}
 Particle* Scene::addParticle20()
 {
 	return buffer20->addParticle();

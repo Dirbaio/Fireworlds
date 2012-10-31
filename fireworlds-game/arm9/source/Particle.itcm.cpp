@@ -3,7 +3,7 @@
 #include "music.h"
 
 
-
+extern Scene* sc;
 
 Particle::Particle()
 {
@@ -16,7 +16,7 @@ inline f32 tof32(int f5)
 	return r;
 }
 
-void Particle::renderBlur(Scene* sc)
+void Particle::renderBlur()
 {
 	f32 vm = fsqrt((tof32(vx)-sc->vxCam)*(tof32(vx)-sc->vxCam) + (tof32(vy)-sc->vyCam)*(tof32(vy)-sc->vyCam));
 	

@@ -10,6 +10,7 @@
 #include "music.h"
 #include "textures.h"
 #include "LevelScene.h"
+#include "TestScene.h"
 #include "LevelSelectScene.h"
 #include "CreditsScene.h"
 #include "Level.h"
@@ -66,7 +67,9 @@ void VblankHandler(void)
 	}
 }
 
-extern "C" {bool isEmulator();}
+extern "C" {
+	bool isEmulator() __attribute__ ((noinline)) ;
+}
 
 /*
 
@@ -203,9 +206,12 @@ void printDebugStuff()
 	int dd = timerElapsed(0)/shit;
 	
 	iprintf("\x1b[1;1HFireworlds beta - By Dirbaio!");
-	iprintf("\x1b[3;1HParticle buffers: %d %d/%d \n %d %d    ", 
-		sc->buffer20->ptsCount, sc->buffer60->ptsCount, sc->buffer60b->ptsCount, 
-		sc->buffer180->ptsCount, sc->buffer1000->ptsCount);
+	iprintf("\x1b[3;1HParticle buffers: %d %d %d/%d \n %d %d    ", 
+		sc->buffer10->ptsCount, 
+		sc->buffer20->ptsCount, 
+		sc->buffer60->ptsCount, sc->buffer60b->ptsCount, 
+		sc->buffer180->ptsCount, 
+		sc->buffer1000->ptsCount);
 	
 	printf("\x1b[10;1HActors:  %d         ", sc->actors.size());
 	printf("\x1b[11;1HCPU:  %d %%        ", dd);
@@ -302,7 +308,7 @@ int main()
 
 	glInit();
 	glEnable(GL_TEXTURE_2D);	
-//	glEnable(GL_ANTIALIAS);	
+	glEnable(GL_ANTIALIAS);	
 	glEnable(GL_BLEND);
 	
 	loadTextures();
@@ -317,13 +323,12 @@ int main()
 
 	glViewport(0,0,255,191);
 
-//	playMusic(mus);
 	swiWaitForVBlank();
 	srand(0);
 	
-//	sc = new LevelScene(36);
+	sc = new LevelScene(36);
 //	sc = new LevelSelectScene();
-	sc = new IntroScene();
+//	sc = new TestScene();
 //	sc = new CreditsScene(true);
 //	sc = new EditorScene(5);
 	sc->onSceneBegin();
@@ -333,6 +338,8 @@ int main()
 	irqSet(IRQ_VBLANK, VblankHandler);
 	
 	bgHide(4);
+	bgShow(4);
+	debugShown = true;
 	
 	keysSetRepeat(20, 6);
 	while(1)
@@ -391,11 +398,12 @@ int main()
 		renderSceneOrtho();
 		
 		//Debug!
-		printDebugStuff();
-
-		//Flush stuff.
 		if(debugShown)
+		{
+			printDebugStuff();
 			oamClear(&oamSub, 0, 0);
+		}
+		
 		oamUpdate(&oamSub);
 		glFlush(GL_TRANS_MANUALSORT);
 		
@@ -417,29 +425,15 @@ int main()
 		
 		oamClear(&oamSub, 0, 0);
 
-/*
-		if(inputKeysDown & KEY_START)
-		{
-			mus++;
-			if(mus == 12) mus = 0;
-			playMusic(mus);
-		}
-		
-		if(inputKeysDown & KEY_SELECT)
-		{
-			mus--;
-			if(mus == -1) mus = 11;
-			playMusic(mus);
-		}
-*/
 
+/*
 		if(inputKeysDown & KEY_R)
 		{
 			debugShown = !debugShown;
 			if(debugShown) bgShow(4);
 			else bgHide(4);
 		}
-
+*/
 		if(inputKeysDown & KEY_L)
 			slowMotion = !slowMotion;
 	 

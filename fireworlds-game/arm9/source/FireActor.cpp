@@ -52,20 +52,56 @@ void FireActor::tick()
 	b = colors[c2][2];
 	
 	if(t > 0) t--;
-	
 	if(activeFire)
-		for(int i = 0; i < 2; i++)		
+	{
+		int rad = 15+t;
+		for(int i = 0; i < 20; i++)
 		{
-			Particle* p2 = sc->addParticle60();
-			p2->r = r;
-			p2->g = g;
-			p2->b = b;
+			int ang = irand(DEGREES_IN_CIRCLE);
+			f32 cos = fcos(ang);
+			f32 sin = fsin(ang);
+			cos -= 0.5;
+			cos += cos/2;
+			f32 xx = vx;
+			f32 yy = vy;
+			vecNormalize(xx, yy);
+			xx *= rad;
+			yy *= rad;
+			f32 dx = xx*cos-yy*sin;
+			f32 dy = xx*sin+yy*cos;
+			f32 pos = -vecProjectionLen(vx, vy, dx, dy)/rad+0.1;
+//			if(pos<0) continue;
+			Particle *p2 = sc->addParticle10();
+			p2->vx = (vx + yy*sin*pos + frand(0.4)).tof5();
+			p2->vy = (vy - xx*sin*pos + frand(0.4)).tof5();
+			p2->x = (x+dx).tof5();
+			p2->y = (y+dy).tof5();
+//			p2->vx2 = (-vx - yy*sin/16).tof5();
+//			p2->vy2 = (-vy + xx*sin/16).tof5(); 
+		
+			p2->nTexture = 1;
+			p2->r = 255;
+			p2->g = 0;
+			p2->b = 100;
 			p2->a = 18;
-			p2->x = (x+frand(firesize*2)).tof5();
-			p2->y = (y+frand(firesize*2)).tof5();
+			p2->sizePerLife = 35;
+			p2->effect = FX_NONE;
+		}
+		
+		for(int i = 0; i < 4; i++)		
+		{
+			Particle* p2 = sc->addParticle20();
+			p2->r = 255;
+			p2->g = 200;
+			p2->b = 100;
+			p2->a = 18;
+			f32 dx = frand(firesize*2);
+			f32 dy = frand(firesize*2);
+			p2->x = (x+dx).tof5();
+			p2->y = (y+dy).tof5();
 
-			p2->vx = (vx+frand(1)).tof5();
-			p2->vy = (vy+frand(1)).tof5();
+			p2->vx = (vx/2 - dx/8 + frand(0.4)).tof5();
+			p2->vy = (vy/2 - dy/8 + frand(0.4)).tof5();
 
 			if(t > 15)
 			{
@@ -73,35 +109,16 @@ void FireActor::tick()
 				p2->vy += (p2->y-y.tof5()) /50;
 			}
 			p2->nTexture = 1;
-			p2->sizePerLife = 6;
+			p2->sizePerLife = 20+irand(15);
 			p2->effect = FX_RED;
 		}
+	}
+	
 	
 	if(activePlayer)
 	{
 		if(musicTrackPlayed[1])
-		{
-			for(int ang = 0; ang < DEGREES_IN_CIRCLE; ang+=DEGREES_IN_CIRCLE / 30)
-			{
-				Particle *p2 = sc->addParticle60();
-				p2->vx = vx.tof5()+sinLerp(ang)/40+irand(10);
-				p2->vy = vy.tof5()+cosLerp(ang)/40+irand(10);
-				p2->x = x.tof5()+p2->vx*3;
-				p2->y = y.tof5()+p2->vy*3;
-				if(rand() % 10 == 0)
-				{
-					p2->vx = vx.tof5()+(rand() % 256*4) - 128*4;
-					p2->vy = vy.tof5()+(rand() % 256*4) - 128*4;
-				}
-				p2->nTexture = 1;
-				p2->r = r;
-				p2->g = g;
-				p2->b = b;
-				p2->a = 18;
-				p2->sizePerLife = 7;
-				p2->effect = FX_RED;
-			}
-		}
+			activated();
 
 		int ang = rand() % DEGREES_IN_CIRCLE;
 		if(musicTrackPlaying[0])
@@ -123,7 +140,7 @@ void FireActor::tick()
 				p2->x += sinLerp(ang)/10;
 				p2->y += cosLerp(ang)/10;
 				p2->nTexture = 1;
-				p2->sizePerLife = -4;
+				p2->sizePerLife = -3;
 				p2->r = 150;
 				p2->g = 100;
 				p2->b = 255;
@@ -156,7 +173,7 @@ void FireActor::tick()
 
 void FireActor::activated()
 {
-	for(int ang = 0; ang < DEGREES_IN_CIRCLE; ang+=DEGREES_IN_CIRCLE / 30)
+	for(int ang = 0; ang < DEGREES_IN_CIRCLE; ang+=DEGREES_IN_CIRCLE / 48)
 	{
 		Particle *p2 = sc->addParticle60();
 		p2->vx = vx.tof5()+sinLerp(ang)/30+irand(10);
@@ -169,11 +186,11 @@ void FireActor::activated()
 			p2->vy = vy.tof5()+(rand() % 256*4) - 128*4;
 		}
 		p2->nTexture = 1;
-		p2->r = r;
-		p2->g = g;
-		p2->b = b;
-		p2->a = 18;
-		p2->sizePerLife = 7;
+		p2->r = 200;
+		p2->g = 100;
+		p2->b = 230;
+		p2->a = 10;
+		p2->sizePerLife = 4;
 		p2->effect = FX_RED;
 	}
 }
@@ -181,7 +198,7 @@ void FireActor::activated()
 void FireActor::render()
 {
 
-	f32 size = 4*14 + t*8;
+	f32 size = 4*14 + t*5;
 	f32 xcam = sc->xCam;
 	f32 ycam = sc->yCam;
 	
@@ -190,9 +207,9 @@ void FireActor::render()
 	if(!onScreen()) return;
 
 	setTexture(1);
-	glPolyFmt(POLY_ALPHA(15+irand(3)) | POLY_ID(FIREGLOW_POLYID+colorShift) | POLY_CULL_NONE);
+	glPolyFmt(POLY_ALPHA(6+irand(3)) | POLY_ID(FIREGLOW_POLYID+colorShift) | POLY_CULL_NONE);
 	//draw the obj
-	glColor3b(r/2+128,g/2+128,b/2+128);
+	glColor3b(200, 150, 100);
 	glBegin(GL_QUAD);
 
 	GFX_TEX_COORD = TEXTURE_PACK(inttot16(64), inttot16(0));

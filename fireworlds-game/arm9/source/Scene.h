@@ -21,6 +21,7 @@ class Scene
 	public:
 	list<Actor*> actors;
 	
+	ParticleBuffer *buffer10;
 	ParticleBuffer *buffer20;
 	ParticleBuffer *buffer60;
 	ParticleBuffer *buffer60b;
@@ -66,6 +67,7 @@ class Scene
 	virtual void renderUnrotated();
 	virtual void onSceneBegin();
 	
+	Particle* addParticle10();
 	Particle* addParticle20();
 	Particle* addParticle60();
 	Particle* addParticle180();

@@ -107,7 +107,10 @@ public class LevelObj
                 if(x[i] > xt+256) return false;
                 if(y[i] < yt-256) return false;
             }
-        
+        if(p.getBounds().height == 0)
+            return false;
+        if(p.getBounds().width == 0)
+            return false;
         return true;
     }
 

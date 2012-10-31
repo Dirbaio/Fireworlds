@@ -34,7 +34,7 @@ class Particle
 	
 	Particle();
 	
-	void renderBlur(Scene* sc);
+	void renderBlur();
 	void move(Scene* sc);
 	
 	bool out(int x, int y);

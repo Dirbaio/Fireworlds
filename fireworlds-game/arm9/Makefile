@@ -28,7 +28,7 @@ TOOLS		:=  tools
 #---------------------------------------------------------------------------------
 ARCH	:=	-marm -mthumb-interwork
 
-CFLAGS	:=	-g -Wall -O2\
+CFLAGS	:=	-g -Wall -O3 \
  			-march=armv5te -mtune=arm946e-s -fomit-frame-pointer\
 			-ffast-math -DINTERNAL_NEWLIB \
 			$(ARCH)
@@ -38,7 +38,7 @@ CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions
 
 ASFLAGS	:=	-g $(ARCH) -march=armv5te -mtune=arm946e-s
 
-LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
+LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map) -fwhole-program -O3
 
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project

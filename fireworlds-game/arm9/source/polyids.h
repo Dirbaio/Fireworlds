@@ -19,6 +19,6 @@
 #define FIREGLOW_POLYID2 61
 
 #define LEVEL_POLYID 62
-#define WATER_POLYID 56
+#define WATER_POLYID 62
 #define BG_POLYID 63
 #endif

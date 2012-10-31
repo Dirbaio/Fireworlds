@@ -32,7 +32,7 @@ ParticleBuffer::~ParticleBuffer()
 
 extern "C" {
 	void particleMove(Particle* begin, Particle* end);
-	void particleRender(Particle* begin, Particle* end, Scene* sc);
+	void particleRender(Particle* begin, Particle* end);
 }
 
 int xParticleOffs;
@@ -44,22 +44,14 @@ void ParticleBuffer::tick(Scene* sc)
 {
 	xParticleOffs = sc->xCam.tof5();
 	yParticleOffs = sc->yCam.tof5();
-	if(ptsBegin > ptsEnd)
+/*	if(ptsBegin > ptsEnd)
 	{
 		particleMove(&pts[ptsBegin], &pts[bufferSize]);
 		particleMove(&pts[0], &pts[ptsEnd]);
 	}
 	else
 		particleMove(&pts[ptsBegin], &pts[ptsEnd]);
-/*
-	for(int i = ptsBegin; i != ptsEnd;)
-	{
-		pts[i].move(sc);
-		i++;
-		if(i == bufferSize) i = 0;
-	}
 	*/
-	
 	while(ptsBegin != ptsEnd && pts[ptsBegin].life <= 0)
 	{
 		ptsBegin++;
@@ -73,11 +65,11 @@ void ParticleBuffer::render(Scene* sc, int& z)
 {
 	if(ptsBegin > ptsEnd)
 	{
-		particleRender(&pts[ptsBegin], &pts[bufferSize], sc);
-		particleRender(&pts[0], &pts[ptsEnd], sc);
+		particleRender(&pts[ptsBegin], &pts[bufferSize]);
+		particleRender(&pts[0], &pts[ptsEnd]);
 	}
 	else
-		particleRender(&pts[ptsBegin], &pts[ptsEnd], sc);
+		particleRender(&pts[ptsBegin], &pts[ptsEnd]);
 
 /*
 	for(int i = ptsBegin; i != ptsEnd;)

@@ -161,6 +161,7 @@ inline f32 fsin(int ang)
 	res.val = sinLerp(ang);
 	return res;
 }
+
 inline f32 fcos(int ang)
 {
 	f32 res;

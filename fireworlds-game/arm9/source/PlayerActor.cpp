@@ -45,7 +45,7 @@ void PlayerActor::tick()
 	
 	if(boostTime > 0)
 	{
-		if(sc->time % 5 == 0) activated();
+//		if(sc->time % 5 == 0) activated();
 		boostTime--;
 	}
 

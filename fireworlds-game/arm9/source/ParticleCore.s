@@ -1,225 +1,204 @@
 
-
-	.section .itcm,"ax",%progbits
-
-	.global particleMove
-particleMove:
-
-	@r0 = begin
-	@r1 = end
-	@r2 = bufferbegin
-	@r3 = bufferend
-	STMFD SP!, {r4-r12}
-
-moveLoop:
-	cmp 	r0, r1		@if end
-	ldmeqfd	SP!, {r4-r12}
-	bxeq	lr			@return
-
-	ldmia	R0, {r2, r3, r4, r5, r6, r7}   @Load x, y, vx, vy, vx2, vy2
-	ADD 	r4, r4, r6, ASR #4		@vx += vx2
-	ADD		r5, r5, r7, ASR #4		@vy += vy2
-	ADD		r2, r2, r4		@x += vx
-	ADD		r3, r3, r5		@y += vy
-	LDRB	R6, [R0, #0x1D]
-	CMP 	R6, #4
-	CMPNE	R6, #5
-	BEQ noFriction
-	ADD		r6, r4, #8
-	ADD		r7, r5, #8
-	SUB		r4, r4, r6, ASR #4
-	SUB		r5, r5, r7, ASR #4
-
-  noFriction:
-	stmia	R0!, {r2, r3, r4, r5} @store x, y, vx, vy
-	
-	@Now r0 = this+0x10
-	
-	ldrsh 	r2, [r0, #0x10]
-	subs	r2, r2, #1		@life--
-	movmi	r2, #0	
-	strh	r2, [r0, #0x10]
-	
-	ldrb	r2, [r0, #0xD]
-	cmp 	r2, #2
-	bne		fx3
-	
-	ldrb	r4, [r0, #0x8]
-	ldrb	r5, [r0, #0x9]
-	ldrb	r6, [r0, #0xA]
-	add 	r4, r4, #3
-	cmp 	r4, #256
-	movge	r4, #255
-	subs	r5, r5, #4
-	movmi	r5, #0
-	subs	r6, r6, #1
-	movmi	r6, #0
-	strb	r4, [r0, #0x8]
-	strb	r5, [r0, #0x9]
-	strb	r6, [r0, #0xA]
-fx3:
-	cmp r2, #3
-	bne fx0
-	ldrb	r4, [r0, #0xB]
-	sub		r4, r4, #1
-	strb	r4, [r0, #0xB]
-	
-fx0:
-	
-	add		r0, r0, #0x14 	@Next particle.
-	
-	b moveLoop
-	
-	
-	
-
-
 	.section .itcm,"ax",%progbits
 
 	.global particleRender
 particleRender:
 
-	@r0 = begin
-	@r1 = end
-	@r2 = scene ptr
+	@R0 = begin
+	@R1 = end
+	@R2 = scene ptr
 
 	
-	STMFD	SP!, {r4-r12, r14}
-	MOV 	r9, r0
-	MOV 	r10, r1
-	MOV		r11, r2 @R11 = scene ptr
+	STMFD	SP!, {R4-R12, R14}
+	MOV 	R9, R0
+	MOV 	R10, R1
 	
-	ldr 	r4, =0x04000400
-	ldr 	r7, =xParticleOffs
-	ldr 	r8, =yParticleOffs
-	ldr		r7, [r7]
-	ldr		r8, [r8]
+	ldr 	R11, =0x04000400
+	ldr 	R7, =xParticleOffs
+	ldr 	R8, =yParticleOffs
+	ldr		R7, [R7]
+	ldr		R8, [R8]
 	
-	@==== R5 Poly ID
-	mov r5, #0
+	@==== 	R6 Poly ID
+	mov 	R6, #0
+
 renderLoop:
 
-	cmp 	r9, r10		@if end
-	ldmeqfd	SP!, {r4-r12, r14}
-	bxeq	lr			@return
+	CMP 	R9, R10		@if end
+	LDMEQFD	SP!, {R4-R12, PC}		@return
 
-	ldrh 	r6, [r9, #0x20] @Life
-	cmp r6, #0
-	beq badParticle
+	LDRH 	R5, [R9, #0x20] @Life
+	CMP 	R5, #0
+	BEQ 	badParticle
+	
+	LDMIA	R9, {R0, R1, R2, R3, R4, R5}   @Load x, y, vx, vy, vx2, vy2
+	ADD 	R2, R2, R4, ASR #4		@vx += vx2
+	ADD		R3, R3, R5, ASR #4		@vy += vy2
+	ADD		R0, R0, R2		@x += vx
+	ADD		R1, R1, R3		@y += vy
+
+	LDRB	R4, [R9, #0x1D]
+	CMP 	R4, #4
+	CMPNE	R4, #5
+	BEQ noFriction2
+	ADD		R4, R2, #8
+	ADD		R5, R3, #8
+	SUB		R2, R2, R4, ASR #4
+	SUB		R3, R3, R5, ASR #4
+  noFriction2: 
+	STMIA	R9, {R0, R1, R2, R3} @store x, y, vx, vy
+
+
+	@===
+
+	
+	ldrsh 	R2, [R9, #0x20]
+	subs	R2, R2, #1		@life--
+	movmi	R2, #0	
+	strh	R2, [R9, #0x20]
+	
+	ldrb	R2, [R9, #0x1D]
+	cmp 	R2, #2
+	bne		fx3
+	
+	ldrb	R4, [R9, #0x18]
+	ldrb	R5, [R9, #0x19]
+	ldrb	R1, [R9, #0x1A]
+	add 	R4, R4, #10
+	cmp 	R4, #256
+	movge	R4, #255
+	subs	R5, R5, #10
+	movmi	R5, #0
+	subs	R1, R1, #5
+	movmi	R1, #0
+	strb	R4, [R9, #0x18]
+	strb	R5, [R9, #0x19]
+	strb	R1, [R9, #0x1A]
+fx3:
+	cmp R2, #3
+	bne fx0
+	ldrb	R4, [R9, #0x1B]
+	sub		R4, R4, #1
+	strb	R4, [R9, #0x1B]
+	
+fx0:	
+	
 	
 	@=== Set texture
-	ldrb 	r0, [r9, #0x1F]
+	ldrb 	R0, [R9, #0x1F]
 	bl _Z10setTexturei
 	
 	@=== Set color
-	ldrb 	r0, [r9, #0x18]
-	ldrb 	r1, [r9, #0x19]
-	ldrb 	r2, [r9, #0x1A]
-	mov r0, r0, LSR #3
-	mov r1, r1, LSR #3
-	mov r2, r2, LSR #3
-	ORR r0, r1, LSL #5
-	ORR r0, r2, LSL #10
-	str r0, [r4, #0x80]
+	ldrb 	R0, [R9, #0x18]
+	ldrb 	R1, [R9, #0x19]
+	ldrb 	R2, [R9, #0x1A]
+	mov 	R0, R0, LSR #3
+	mov 	R1, R1, LSR #3
+	mov 	R2, R2, LSR #3
+	ORR 	R0, R1, LSL #5
+	ORR 	R0, R2, LSL #10
+	str 	R0, [R11, #0x80]
 	
-	@=== r3: Calc alpha
-	ldrb 	r2, [r9, #0x1D] @fx
-	cmp 	r2, #3
-	moveq	r3, r6, LSR #6
-	addeq	r3, r3, #2
-	ldrneb 	r3, [r9, #0x1B] @alpha
-	cmp 	r2, #5
-	moveq	r3, r6, LSR #4
-	addeq	r3, r3, #3
+	@=== R3: Calc alpha
+	LDRH 	R5, [R9, #0x20] @Life
+
+	ldrb 	R2, [R9, #0x1D] @fx
+	cmp 	R2, #3
+	moveq	R3, R5, LSR #6
+	addeq	R3, R3, #2
+	ldrneb 	R3, [R9, #0x1B] @alpha
+	cmp 	R2, #5
+	moveq	R3, R5, LSR #4
+	addeq	R3, R3, #3
 	
 	@=== Set poly attr
-	mov 	r0, #3<<6			@No culling
-	ORR 	r0, r0, r3, LSL#16	@Alpha
-	ORR		r0, r0, r5, LSL#24	@Poly ID
-	str		r0, [r4, #0xA4]		@Store it.
+	mov 	R0, #3<<6				@No culling
+	ORR 	R0, R0, R3, LSL#16		@Alpha
+	ORR		R0, R0, R6, LSL#24		@Poly ID
+	str		R0, [R11, #0xA4]		@Store it.
 	
-	ldrb 	r2, [r9, #0x1D] @fx
-	cmp 	r2, #1
+	ldrb 	R2, [R9, #0x1D] @fx
+	cmp 	R2, #1
 	bne		normalParticle
-	mov 	r0, r9
-	mov		r1, r11
-	bl		_ZN8Particle10renderBlurEP5Scene
+	mov 	R0, R9
+	mov		R1, R11
+@	bl		_ZN8Particle10renderBlurV
 	b 		badParticle
 	
 normalParticle:
 	@=== Begin vtxs
-	mov		r0, #1
-	str		r0, [r4, #0x100]
+	mov		R0, #1
+	str		R0, [R11, #0x100]
 	
-	@==== R6 Particle Size
-	ldrsb 	r2, [r9, #0x1C]
-	cmp 	r2, #0
-	mov 	r0, #0
-	sublt 	r6, r0, r2, LSL #5
-	mulge	r6, r2, r6
+	@==== R5 Particle Size
+	ldrsb 	R2, [R9, #0x1C]
+	cmp 	R2, #0
+	mov 	R0, #0
+	sublt 	R5, R0, R2, LSL #5
+	mulge	R5, R2, R5
 
 	@==== R2, R3 Upper left pos
-	LDMIA	r9, {r2, r3}
-	SUB		r2, r2, r6 	@x -= size
-	SUB		r3, r3, r6		@y -= size
+	LDMIA	R9, {R2, R3}
+	SUB		R2, R2, R5 		@x -= size
+	SUB		R3, R3, R5		@y -= size
 
-	SUBs	r2, r2, r7		@x -= xCam
+	SUBS	R2, R2, R7		@x -= xCam
 
-	MOV		r1, r2			@r1 = abs(x)
-	RSBMI   r1, r2, #0		
-	CMP		r1, #384*32		@if(r1 > 192px)
-	movge	r0, #1			@set life  to 0
+	MOV		R1, R2			@R1 = abs(x)
+	RSBMI   R1, R2, #0		
+	CMP		R1, #384*32		@if(R1 > 192px)
+	movge	R0, #1			@set life  to 0
 
 
-	SUBs	r3, r3, r8		@Same for y
-	MOV		r1, r3
-	RSBMI   r1, r3, #0
-	CMP		r1, #256*32
-	movge	r0, #1
+	SUBs	R3, R3, R8		@Same for y
+	MOV		R1, R3
+	RSBMI   R1, R3, #0
+	CMP		R1, #256*32
+	movge	R0, #1
 
-	cmp 	r0, #1
-	moveq 	r0, #0
-	streqh 	r0, [r9, #0x20]
+	cmp 	R0, #1
+	moveq 	R0, #0
+	streqh 	R0, [R9, #0x20]
 	
-	ADD		r6, r6, r6 @diameter, not radius!
-	
+	ADD		R5, R5, R5 @diameter, not radius!
+
 	@==== Send VTX 1
-	MOV		r0, #0
-	STR		r0, [r4, #0x88]
+	MOV		R0, #0
+	STR		R0, [R11, #0x88]
 	
-	MOV		r1, #1<<16
-	SUB		r1, #1
-	AND		r2, r2, r1
-	AND		r3, r3, r1
-	ORR		r1, r2, r3, LSL #16
-	str		r1, [r4, #0x8C]
-	str		r0, [r4, #0x8C]
+	MOV		R1, #1<<16
+	SUB		R1, #1
+	AND		R2, R2, R1
+	AND		R3, R3, R1
+	ORR		R1, R2, R3, LSL #16
+	str		R1, [R11, #0x8C]
+	str		R0, [R11, #0x8C]
 
-	ADD		r0, r0, #64<<4
-	STR		r0, [r4, #0x88]
-	ADD		r1, r1, r6
-@	ORR		r1, r2, r3, LSL #16
-	str		r1, [r4, #0x94]
+	ADD		R0, R0, #64<<4
+	STR		R0, [R11, #0x88]
+	ADD		R1, R1, R5
+@	ORR		R1, R2, R3, LSL #16
+	str		R1, [R11, #0x94]
 
-	ADD		r0, r0, #64<<4<<16
-	STR		r0, [r4, #0x88]
-	ADD		r1, r1, r6, LSL #16
-@	ORR		r1, r2, r3, LSL #16
-	str		r1, [r4, #0x94]
+	ADD		R0, R0, #64<<4<<16
+	STR		R0, [R11, #0x88]
+	ADD		R1, R1, R5, LSL #16
+@	ORR		R1, R2, R3, LSL #16
+	str		R1, [R11, #0x94]
 	
-	SUB		r0, r0, #64<<4
-	STR		r0, [r4, #0x88]
-	SUB		r1, r1, r6
-@	ORR		r1, r2, r3, LSL #16
-	str		r1, [r4, #0x94]
+	SUB		R0, R0, #64<<4
+	STR		R0, [R11, #0x88]
+	SUB		R1, R1, R5
+@	ORR		R1, R2, R3, LSL #16
+	str		R1, [R11, #0x94]
 badParticle:	
 
 	@====
-	add		r5, r5, #1
-	cmp		r5, #50
-	moveq	r5, #0
+	add		R6, R6, #1
+	cmp		R6, #50
+	moveq	R6, #0
 
-	add		r9, r9, #0x24 	@Next particle.
+	add		R9, R9, #0x24 	@Next particle.
 	
 	b renderLoop
 	
@@ -227,6 +206,6 @@ badParticle:
 .global getStackPointer
 
 getStackPointer:
-	mov r0,sp
+	mov R0,sp
 	bx lr
 	

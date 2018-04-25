@@ -14,7 +14,7 @@
 
 CreditsScene::CreditsScene(bool playVideo) : Scene()
 {
-//	videoPath = "fat:/data/fworlds/ending.vds";
+//	videoPath = "/ending.vds";
 	musicNumber = playVideo?7:1;
 	topText = "";
 	this->playVideo = playVideo;
@@ -58,7 +58,7 @@ void CreditsScene::tick()
 	if(time == s*7)	 	actors.push_back(new CreditsTextActor(this, 0, 0, false, 	"DIRBAIO"));
 	if(time == s*7)		actors.push_back(new CreditsTextActor(this, 0, -30, true, "JUNE 2011"));
 
-	if(time == s*8 && playVideo) videoPath = "fat:/data/fworlds/ending.vds";
+	if(time == s*8 && playVideo) videoPath = "/ending.vds";
 	if(time == s*8+1 && canChangeScene()) doSceneChange(new IntroScene());
 	
 	

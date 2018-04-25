@@ -16,7 +16,7 @@
 LevelSelectScene::LevelSelectScene() : Scene()
 {
 	for(int i = 0; i < 40; i++) levels[i] = NULL;
-	
+
 	levCount = levelsBeaten+1;
 	if(levCount > 36) levCount = 36;
 	for(int i = 1; i <= levCount; i++)
@@ -26,9 +26,9 @@ LevelSelectScene::LevelSelectScene() : Scene()
 		levels[i]->y = -i*35;
 		actors.push_back(levels[i]);
 	}
-	
+
 	yCamAcc = 0;
-	levSelected = -1;
+	levSelected = 0;
 	goTime = -1;
 	goBack = false;
 	topText = "Pick a level!;NOW!";
@@ -47,14 +47,14 @@ void LevelSelectScene::tick()
 	{
 		goTime--;
 	}
-	
+
 	if(goTime == 49)
 	{
 		for(int i = 1; i <= levCount; i++)
 			levels[i]->explode();
 		for(int i = 0; i < 30; i++) levels[i] = NULL;
 	}
-	
+
 	if(goTime == 0 && canChangeScene())
 	{
 		if(goBack)
@@ -62,7 +62,7 @@ void LevelSelectScene::tick()
 		else
 			doSceneChange(new LevelScene(levSelected));
 	}
-	
+
 	if(time % 2 == 0)
 	{
 		Particle* star = addParticle1000();
@@ -75,20 +75,20 @@ void LevelSelectScene::tick()
 		star->y = (yCam + 126).tof5();
 		star->nTexture = TEX_DIAMOND;
 		star->effect = FX_NOFRICTION;
-		
-		
+
+
 		star->r = 150+rand() % 100;
 		star->g = 150+rand() % 100;
 		star->b = 255;
 		star->a = 10+rand() % 21;
-		
+
 	}
-	
+
 	Scene::tick();
 
 	if(goTime != -1)
 		return;
-		
+
 	/*
 	for(int i = 0; i < 3; i++)
 	{
@@ -104,9 +104,9 @@ void LevelSelectScene::tick()
 		fires[i]->vx -= dx/18;
 		fires[i]->vy *= 0.6;
 		fires[i]->vy -= dy/18;
-		
+
 	}*/
-	
+
 	for(int i = 1; i <= levCount; i++)
 		if(levels[i]->touched)
 			selectLevel(i);
@@ -124,13 +124,13 @@ void LevelSelectScene::tick()
 
 	if(inputKeysDown & KEY_A && levSelected != -1)
 		goTime = 50;
-		
+
 	if(inputKeysDown & KEY_B)
 	{
 		goBack = true;
 		goTime = 50;
 	}
-	
+
 	if(inputKeysDown & KEY_TOUCH)
 	{
 		jumpToSelected = false;
@@ -153,7 +153,7 @@ void LevelSelectScene::tick()
 		else
 			yCamAcc *= f32(0.9);
 	}
-	
+
 	yCam += yCamAcc;
 	if(yCam > 0) yCam = 0;
 	if(yCam < -levCount*35) yCam = -levCount*35;
@@ -163,7 +163,7 @@ void LevelSelectScene::selectLevel(int i)
 {
 	if(i < 1) i = 1;
 	if(i > levCount) i = levCount;
-	
+
 	if(levSelected != -1) levels[levSelected]->active = false;
 	levSelected = i;
 	levels[levSelected]->active = true;
@@ -183,5 +183,5 @@ void LevelSelectScene::render()
 
 void LevelSelectScene::renderPerspective()
 {
-	
+
 }

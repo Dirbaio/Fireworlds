@@ -1,9 +1,10 @@
 #include <nds.h>
-#include<list>
-#include<stdio.h>
-#include<stdlib.h>
-#include<math.h>
+#include <list>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 #include "as_lib9.h"
+#include <filesystem.h>
 
 #include <subsprites.h>
 #include <topbg.h>
@@ -51,8 +52,9 @@ int inputKeysRepeat;
 touchPosition inputTouch;
 
 bool runningInEmu;
-bool debugShown = false;
+bool debugShown = true;
 bool slowMotion = false;
+bool doMotionBlur = true;
 
 Scene* sc;
 
@@ -76,7 +78,7 @@ extern "C" {
 		glPushMatrix();
 		glRotateYi(rot*100);
 
-		glPolyFmt(POLY_ALPHA(31) | POLY_CULL_BACK | POLY_FORMAT_LIGHT0 | POLY_FORMAT_LIGHT1 | 
+		glPolyFmt(POLY_ALPHA(31) | POLY_CULL_BACK | POLY_FORMAT_LIGHT0 | POLY_FORMAT_LIGHT1 |
 			  1<<11) ;
 
 		rot += 1;
@@ -85,7 +87,7 @@ extern "C" {
 		glMaterialf(GL_SPECULAR, RGB15(8,8,8));
 		glMaterialf(GL_EMISSION, RGB15(5,5,5));
 		setNoTexture();
-//		myCallList((u32*)sphereModel);	
+//		myCallList((u32*)sphereModel);
 
 		glPopMatrix(1);
 */
@@ -112,10 +114,10 @@ void changeSceneIfNeeded()
 				Scene* nw = sc->newScene;
 				delete sc;
 				sc = nw;
-				
+
 				subClear();
 				sc->onSceneBegin();
-				
+
 				transitioningDone = true;
 				transitionTime = 255;
 				AS_SetMP3Volume(127);
@@ -124,7 +126,7 @@ void changeSceneIfNeeded()
 			{
 				if(sc->musicNumber != sc->newScene->musicNumber)
 					AS_SetMP3Volume(transitionTime / 2);
-				
+
 				hdma_transition(255- transitionTime);
 			}
 		}
@@ -158,7 +160,7 @@ void renderSceneOrtho()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	int xs = 256;
-	int ys = 192; 
+	int ys = 192;
 	int zoom = 16; //higher means zoom out
 	glOrthof32(-xs*zoom, xs*zoom, -ys*zoom, ys*zoom, -100000, 100000);
 	glMatrixMode(GL_MODELVIEW);
@@ -191,7 +193,7 @@ void copy(const void* src, void* dest, int len)
 {
 	const u16* srcu = (u16*) src;
 	u16* dstu = (u16*) dest;
-	
+
 	for(int i = 0; i < len / 2; i++)
 	{
 		dstu[i] = srcu[i];
@@ -204,15 +206,15 @@ void printDebugStuff()
 	//Debug
 	int shit = BUS_CLOCK / 100 / 60 / 1024;
 	int dd = timerElapsed(0)/shit;
-	
+
 	iprintf("\x1b[1;1HFireworlds beta - By Dirbaio!");
-	iprintf("\x1b[3;1HParticle buffers: %d %d %d/%d \n %d %d    ", 
-		sc->buffer10->ptsCount, 
-		sc->buffer20->ptsCount, 
-		sc->buffer60->ptsCount, sc->buffer60b->ptsCount, 
-		sc->buffer180->ptsCount, 
+	iprintf("\x1b[3;1HParticle buffers: %d %d %d/%d \n %d %d    ",
+		sc->buffer10->ptsCount,
+		sc->buffer20->ptsCount,
+		sc->buffer60->ptsCount, sc->buffer60b->ptsCount,
+		sc->buffer180->ptsCount,
 		sc->buffer1000->ptsCount);
-	
+
 	printf("\x1b[10;1HActors:  %d         ", sc->actors.size());
 	printf("\x1b[11;1HCPU:  %d %%        ", dd);
 	printf("\x1b[12;1HCPU7: %d %%        ", PA_Transfer->cpuUsage);
@@ -220,7 +222,7 @@ void printDebugStuff()
 	printf("\x1b[14;1HVertex RAM: %d        ", GFX_VERTEX_RAM_USAGE);
 	printf("\x1b[15;1HPolygon RAM: %d        ", GFX_POLYGON_RAM_USAGE);
 	printf("\x1b[16;1HEmulator?: %d        ", runningInEmu);
-	
+
 	struct mallinfo inf = mallinfo();
 	printf("\x1b[8;1HRAM  %d       ", inf.uordblks);
 
@@ -244,12 +246,22 @@ f32 test_rand2()
 
 int main()
 {
+    vramSetBankA(VRAM_A_LCD);
+    vramSetBankB(VRAM_B_LCD);
+	vramSetBankC(VRAM_C_LCD);
+    vramSetBankD(VRAM_D_LCD);
+    vramSetBankE(VRAM_E_LCD);
+    vramSetBankF(VRAM_F_LCD);
+    vramSetBankG(VRAM_G_LCD);
+    vramSetBankH(VRAM_H_LCD);
+    vramSetBankI(VRAM_I_LCD);
+
 	//Reset heap tracker.
 //	*((vu32*)0x04FFF020) = 1234;
-	
-	
-	defaultExceptionHandler();
-	
+
+
+	//defaultExceptionHandler();
+
 	lcdMainOnBottom();
 	videoSetModeSub(MODE_0_2D);
 	vramSetBankH(VRAM_H_SUB_BG);
@@ -271,25 +283,24 @@ int main()
 			swiWaitForVBlank();
 		}*/
 	}
-	
+
 	if(!runningInEmu)
 	{
 		AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);
 		AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND);
 	}
-	
-	iprintf("Trying to init FAT...\n");
-	if(!fatInitDefault()) error("FATAL ERROR: Couldnt init FAT!\nMake sure you've correctly\nDLDI patched the ROM.\nHalting.");
+
+	iprintf("Trying to init NitroFS...\n");
+	if(!nitroFSInit(NULL))
+		error("FATAL ERROR: Couldnt init FAT!\nMake sure you've correctly\nDLDI patched the ROM.\nHalting.");
 
 	iprintf("Trying to open test file...\n");
-	FILE* testLevel = fopen("fat:/data/fworlds/01.dgl", "rb");
+	FILE* testLevel = fopen("/01.dgl", "rb");
 	if(testLevel == NULL) error("FATAL ERROR: Couldnt open test\nfile.Make sure you copied the\ndata folder in the root\nof the microSD.");
 	fclose(testLevel);
 	iprintf("All Ok! Starting!\n");
-	
-	
-	vramSetBankC( VRAM_C_LCD);
-	vramSetBankD( VRAM_D_LCD);
+
+    vramSetBankC(VRAM_C_LCD);
 	for(int i = 0; i < 128*1024; i++)
 		VRAM_C[i] = 0;
 
@@ -298,7 +309,7 @@ int main()
 	vramSetBankH(VRAM_H_SUB_BG);
 	consoleInit(NULL, 0, BgType_Text4bpp, BgSize_T_256x256, 0, 1, false, true );
 
-	
+
 //	consoleDebugInit(DebugDevice_NOCASH);
 
 	vramSetBankD(VRAM_D_SUB_SPRITE);
@@ -315,18 +326,18 @@ int main()
 	oamEnable(&oamSub);
 	initSub();
 
-	glInit();
-	glEnable(GL_TEXTURE_2D);	
-	glEnable(GL_ANTIALIAS);	
+    videoSetMode(MODE_0_3D);
+
+    glInit();
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_ANTIALIAS);
 	glEnable(GL_BLEND);
-	
+
 	loadTextures();
 	loadSaver();
-	
-	videoSetMode(MODE_0_3D);
-	
+
 	// setup the rear plane
-	glClearColor(0, 0, 0, 31); 
+	glClearColor(0, 0, 0, 31);
 	glClearPolyID(BG_POLYID);
 	glClearDepth(0x7FFF);
 
@@ -334,18 +345,17 @@ int main()
 
 	swiWaitForVBlank();
 	srand(0);
-	
+
 	sc = new IntroScene();
 	sc->onSceneBegin();
-	
-	glLight(0, RGB15(20,20,20) , floattov10(1), floattov10(-1.0), -1);
-	glLight(1, RGB15(10,10,16) , floattov10(-1), floattov10(1.0), 0);
+
+	//glLight(0, RGB15(20,20,20) , floattov10(1), floattov10(-1.0), -1);
+	//glLight(1, RGB15(10,10,16) , floattov10(-1), floattov10(1.0), 0);
 	irqSet(IRQ_VBLANK, VblankHandler);
-	
-	bgHide(4);
-//	bgShow(4);
-//	debugShown = true;
-	
+
+    if(debugShown) bgShow(4);
+    else bgHide(4);
+
 	keysSetRepeat(20, 6);
 	while(1)
 	{
@@ -354,13 +364,13 @@ int main()
 		{
 			oamClear(&oamSub, 0, 0);
 			oamUpdate(&oamSub);
-			
+
 			if(videoStart(sc->videoPath))
 			{
 				while(1)
 				{
 					if(!videoVBL()) break;
-					//READ INPUT		
+					//READ INPUT
 					scanKeys();
 					inputKeysDown = keysDown();
 					inputKeysHeld = keysHeld();
@@ -383,7 +393,7 @@ int main()
 
 		changeSceneIfNeeded();
 
-		//READ INPUT		
+		//READ INPUT
 		scanKeys();
 		inputKeysDown = keysDown();
 		inputKeysHeld = keysHeld();
@@ -391,27 +401,29 @@ int main()
 		touchRead(&inputTouch);
 
 		subFrameStart();
-		
+
 		renderBg();
-		
+
 		//Update scene
 		sc->tick();
 
-		//Do motion blur
-		motionBlurRender();
+        if(doMotionBlur) {
+    		//Do motion blur
+    		motionBlurRender();
+        }
 		renderScenePerspective();
 		renderSceneOrtho();
-		
+
 		//Debug!
 		if(debugShown)
 		{
 			printDebugStuff();
 			oamClear(&oamSub, 0, 0);
 		}
-		
+
 		oamUpdate(&oamSub);
 		glFlush(GL_TRANS_MANUALSORT);
-		
+
 		swiWaitForVBlank();
 		if(slowMotion)
 		{
@@ -419,35 +431,35 @@ int main()
 			swiWaitForVBlank();
 			swiWaitForVBlank();
 		}
-		
-		//Do motion blur for next frame.
-		motionBlurFrame();
-		REG_DISPCAPCNT |= DCAP_ENABLE;
+
+        if(doMotionBlur) {
+    		//Do motion blur for next frame.
+    		motionBlurFrame();
+    		REG_DISPCAPCNT |= DCAP_ENABLE;
+        }
 
 		//Music updates
 		AS_SoundVBL();
 		musicTick();
-		
+
 		oamClear(&oamSub, 0, 0);
 
-
-/*
 		if(inputKeysDown & KEY_R)
 		{
 			debugShown = !debugShown;
 			if(debugShown) bgShow(4);
 			else bgHide(4);
 		}
-*/
+
 		if(inputKeysDown & KEY_L)
-			slowMotion = !slowMotion;
-	 
+			doMotionBlur = !doMotionBlur;
+
 		int shit = BUS_CLOCK / 100 / 60 / 1024;
 		int dd = timerElapsed(0)/shit;
 		if(dd > 90)	printf("\x1b[16;1HLAG");
 		else printf("\x1b[16;1H...");
-		
+
 		timerStop(0);
-		
+
 	}
 }

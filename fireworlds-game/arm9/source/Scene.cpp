@@ -12,18 +12,18 @@ Scene::Scene()
 {
 	xCam = 0;
 	yCam = 0;
-	
+
 	buffer10 = new ParticleBuffer(800, 10, false, NULL);
 	buffer20 = new ParticleBuffer(800, 20, false, NULL);
 	buffer60b = new ParticleBuffer(1000, 60, false, NULL);
 	buffer60 = new ParticleBuffer(300, 60, true, buffer60b);
 	buffer180 = new ParticleBuffer(200, 180, false, NULL);
 	buffer1000 = new ParticleBuffer(400, 1000, false, NULL);
-	
+
 	lev = NULL;
 	newScene = NULL;
 	time = 0;
-	
+
 	actors = list<Actor*>();
 	camRotX = 0;
 	camRotY = -1;
@@ -31,16 +31,16 @@ Scene::Scene()
 	topText = "  D1RB41O;    H4Z;   TR0LL";
 	textChar = 0;
 	textTime = 40;
-	
+
 	curTextX = 10;
 	curTextY = 120;
 	cursorTime = 100;
-	
+
 	musicNumber = 0;
-	
+
 	zoom = 1;
 	videoPath = NULL;
-	
+
 	for(int i = 0; i < 32; i++)
 	{
 		switchesActive[i] = false;
@@ -76,14 +76,14 @@ bool Scene::inCamStrict(f32 x, f32 y)
 
 void Scene::onSceneBegin()
 {
-	playMusic(musicNumber);	
+	playMusic(musicNumber);
 }
 
 
 void Scene::tick()
 {
 	if(cursorTime != 0) cursorTime--;
-	
+
 	if(textTime != -1)
 	{
 		if(textTime != 0)
@@ -111,15 +111,15 @@ void Scene::tick()
 				textTime = 8;
 		}
 	}
-	
+
 	if(camRelaxTime > 0) camRelaxTime--;
-	
+
 	for(list<Actor*>::iterator it = actors.begin(); it != actors.end(); it++)
 	{
 //		if(inCam((*it)->x, (*it)->y))
 			(*it)->tick();
 	}
-	
+
 	for(list<Actor*>::iterator it = actors.begin(); it != actors.end(); )
 	{
 		if((*it)->dead)
@@ -134,7 +134,7 @@ void Scene::tick()
 	}
 
 	tickParticles();
-	
+
 	vxCam = xCam-oxCam;
 	vyCam = yCam-oyCam;
 	oxCam = xCam;
@@ -160,7 +160,7 @@ void Scene::toWorldCoords(f32& dx, f32& dy, f32 x, f32 y)
 
 	dx = xCam +nvxt;
 	dy = yCam +nvyt;
-	
+
 }
 
 void Scene::tickParticles()
@@ -171,7 +171,7 @@ void Scene::tickParticles()
 	buffer60b->tick(this);
 	buffer180->tick(this);
 	buffer1000->tick(this);
-	
+
 	time++;
 }
 
@@ -188,7 +188,7 @@ void Scene::render()
 	buffer180->render(this, z);
 	for(list<Actor*>::iterator it = actors.begin(); it != actors.end(); it++)
 		(*it)->render();
-		
+
 	if((cursorTime / 15) % 2 == 1)
 		subRenderObjChar(curTextX, curTextY, '.');
 }
@@ -197,13 +197,13 @@ void Scene::renderPerspective()
 {
 	for(list<Actor*>::iterator it = actors.begin(); it != actors.end(); it++)
 		(*it)->renderPerspective();
-	
+
 }
 
 void Scene::renderUnrotated()
 {
 	for(list<Actor*>::iterator it = actors.begin(); it != actors.end(); it++)
-		(*it)->renderUnrotated();	
+		(*it)->renderUnrotated();
 }
 
 
@@ -249,9 +249,9 @@ void Scene::renderString(const char* str, f32 x, f32 y, int r, int g, int b)
 {
 	int l = 0;
 	while(str[l] != 0) l++;
-	
+
 	x -= (l*25) / 2;
-	
+
 	int i = 0;
 	while(str[i] != 0)
 	{
@@ -259,7 +259,7 @@ void Scene::renderString(const char* str, f32 x, f32 y, int r, int g, int b)
 		int rr = r+irand(80); if(rr < 0) rr = 0; if(rr > 255) rr = 255;
 		int gg = g+irand(80); if(gg < 0) gg = 0; if(gg > 255) gg = 255;
 		int bb = b+irand(80); if(bb < 0) bb = 0; if(bb > 255) bb = 255;
-		
+
 		glColor3b(rr, gg, bb);
 		renderChar(str[i], x+frand(1), y+frand(2), 10);
 		x += 25;

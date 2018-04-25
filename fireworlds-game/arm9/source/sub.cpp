@@ -80,32 +80,32 @@ void subSetPixel(int x, int y, int shit)
 {
 	//Complicated tiling stuff.
 	//Mother of god!
-	
+
 	u16* ptr = (u16*)(0x06610000);
-	
+
 	int bx = x / 64;
 	int by = y / 64;
 	int b = bx + by*4;
 	ptr += b*8*8*64/2;
-	
+
 	x %= 64;
 	y %= 64;
 	int tx = x/8;
 	int ty = y/8;
 	int t = tx+ty*8;
 	ptr += t*8*8/2;
-	
+
 	int px = x%8 + (y%8) * 8;
 	ptr += px/2;
-	
+
 	shit &= 0xF;
-	
+
 	u16 v = *ptr;
 	if(px % 2 == 0)
 		v = (v & 0xFF00) | shit;
 	else
 		v = (v & 0x00FF) | shit<<8;
-	
+
 	*ptr = v;
 }
 
@@ -113,9 +113,9 @@ void renderBg()
 {
 	//God, how I hate sprites!!
 	for(int i = 0; i < 4*3; i++)
-		oamSet(&oamSub, i, 64*(i%4), 64*(i/4), 3, 1, SpriteSize_64x64, SpriteColorFormat_256Color, (void*)(0x06604000 + i*8*8*64), -1, false, false, false, false, false);	
+		oamSet(&oamSub, i, 64*(i%4), 64*(i/4), 3, 1, SpriteSize_64x64, SpriteColorFormat_256Color, (void*)(0x06604000 + i*8*8*64), -1, false, false, false, false, false);
 	for(int i = 0; i < 4*3; i++)
-		oamSet(&oamSub, i+12, 64*(i%4), 64*(i/4), 2, 2, SpriteSize_64x64, SpriteColorFormat_256Color, (void*)(0x06610000 + i*8*8*64) , -1, false, false, false, false, false);	
+		oamSet(&oamSub, i+12, 64*(i%4), 64*(i/4), 2, 2, SpriteSize_64x64, SpriteColorFormat_256Color, (void*)(0x06610000 + i*8*8*64) , -1, false, false, false, false, false);
 }
 
 void subRenderObjChar(int x, int y, char c)
@@ -131,7 +131,7 @@ void subRenderObjChar(int x, int y, char c)
 	if(c == '.') num = 43;
 	if(c == ',') num = 44;
 	if(c == ':') num = 45;
-	
+
 	if(num != -1)
 		renderSpriteSub(x, y, num);
 }
@@ -176,14 +176,11 @@ void subRenderObjNum(int x, int y, int n)
 void subRenderPixelChar(int xp, int yp, char c)
 {
 	c = toupper(c);
-	int xc = (c % 32) * 8;
-	int yc = (c / 32) * 8;
-
-
-	u8* text = (u8*) introtextBitmap;
+	u8* text = (u8*) introtextTiles;
+    text += c * 8 * 8;
 	for(int x = 0; x < 8; x++)
 		for(int y = 0; y < 8; y++)
-			if(text[x+xc+(y+yc)*256] == 0x01)
+			if(text[x + y*8] == 0x01)
 			{
 				subSetPixel(xp+x*2, yp+y*2, 1);
 				subSetPixel(xp+x*2, yp+y*2+1, 1);

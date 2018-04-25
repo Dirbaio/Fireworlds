@@ -5,34 +5,47 @@ ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
 
+export TARGET	:=	$(shell basename $(CURDIR))
+export TOPDIR	:=	$(CURDIR)
+
+# specify a directory which contains the nitro filesystem
+# this is relative to the Makefile
+NITRO_FILES	    :=  nitro
+
+# These set the information text in the nds file
+GAME_TITLE      :=	Fireworlds
+GAME_SUBTITLE1  :=	Dirbaio - Saga Musix - Sorington
+GAME_SUBTITLE2  :=	June 2011
+GAME_ICON       :=  $(TOPDIR)/icon.bmp
 
 include $(DEVKITARM)/ds_rules
 
-export TARGET		:=	$(shell basename $(CURDIR))
-export TOPDIR		:=	$(CURDIR)
-
-
-GAME_TITLE	:=	Fireworlds
-GAME_SUBTITLE1	:=	Dirbaio - Saga Musix - Sorington
-GAME_SUBTITLE2	:=	June 2011"
-GAME_ICON      :=      $(TOPDIR)/icon.bmp
-
-
-.PHONY: arm7/$(TARGET).elf arm9/$(TARGET).elf
+.PHONY: checkarm7 checkarm9 clean
 
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-all: $(TARGET).nds
+all: checkarm7 checkarm9 $(TARGET).nds
 
 #---------------------------------------------------------------------------------
-$(TARGET).nds	:	arm7/$(TARGET).elf arm9/$(TARGET).elf
-	ndstool	-c $(TARGET).nds -b $(GAME_ICON) "$(GAME_TITLE);$(GAME_SUBTITLE1)" -7 arm7/$(TARGET).elf -9 arm9/$(TARGET).elf
+checkarm7:
+	$(MAKE) -C arm7
+
+#---------------------------------------------------------------------------------
+checkarm9:
+	$(MAKE) -C arm9
+
+#---------------------------------------------------------------------------------
+$(TARGET).nds	: $(NITRO_FILES) arm7/$(TARGET).elf arm9/$(TARGET).elf
+	echo $(_ADDFILES)
+	ndstool	-c $(TARGET).nds -7 arm7/$(TARGET).elf -9 arm9/$(TARGET).elf \
+	-b $(GAME_ICON) "$(GAME_TITLE);$(GAME_SUBTITLE1);$(GAME_SUBTITLE2)" \
+	$(_ADDFILES)
 
 #---------------------------------------------------------------------------------
 arm7/$(TARGET).elf:
 	$(MAKE) -C arm7
-	
+
 #---------------------------------------------------------------------------------
 arm9/$(TARGET).elf:
 	$(MAKE) -C arm9
@@ -42,7 +55,3 @@ clean:
 	$(MAKE) -C arm9 clean
 	$(MAKE) -C arm7 clean
 	rm -f $(TARGET).nds $(TARGET).arm7 $(TARGET).arm9
-
-run: 
-
-	C:/Users/Dario/Desktop/desmume/DeSmuME_VS2010_dev+.exe "/c/users/dario/desktop/fireworlds/fireworlds-game/fireworlds-game.nds"

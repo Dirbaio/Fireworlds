@@ -12,35 +12,35 @@ int musicTrackPlaying[4];
 
 int playingMusic = -1;
 const char* filenamesMP3[] = {
-   "fat:/data/fworlds/dotmw.mp3", //0
-   "fat:/data/fworlds/dotmw2.mp3", //1
-   "fat:/data/fworlds/dotmw3.mp3", //2
+   "/dotmw.mp3", //0
+   "/dotmw2.mp3", //1
+   "/dotmw3.mp3", //2
 //   "winter",
 //   "unreal",
 //   "stepfw",
 //   "safari",
-   "fat:/data/fworlds/orbit.mp3", //3
+   "/orbit.mp3", //3
 //   "logctrl",
-   "fat:/data/fworlds/latenght.mp3", //4
-   "fat:/data/fworlds/hardtech.mp3", //5 
-   "fat:/data/fworlds/happy.mp3", //6
-   "fat:/data/fworlds/dotmw4.mp3", //7
+   "/latenght.mp3", //4
+   "/hardtech.mp3", //5 
+   "/happy.mp3", //6
+   "/dotmw4.mp3", //7
    };
    
 const char* filenamesMID[] = {
-   "fat:/data/fworlds/dotmw.mid",
-   "fat:/data/fworlds/dotmw2.mid",
-   "fat:/data/fworlds/dotmw3.mid",
+   "/dotmw.mid",
+   "/dotmw2.mid",
+   "/dotmw3.mid",
 //   "winter",
 //   "unreal",
 //   "stepfw",
 //   "safari",
-   "fat:/data/fworlds/orbit.mid",
+   "/orbit.mid",
 //   "logctrl",
-   "fat:/data/fworlds/latenght.mid",
-   "fat:/data/fworlds/hardtech.mid",
-   "fat:/data/fworlds/happy.mid",
-   "fat:/data/fworlds/dotmw4.mid",
+   "/latenght.mid",
+   "/hardtech.mid",
+   "/happy.mid",
+   "/dotmw4.mid",
    };
    
 const int syncChannels[][5] = {

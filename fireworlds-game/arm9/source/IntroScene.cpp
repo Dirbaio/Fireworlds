@@ -37,7 +37,7 @@ IntroScene::IntroScene() : Scene()
 		fireTargetY[i] = -60 + 60*i;
 	}
 	
-	videoPath = "fat:/data/fworlds/intro.vds";
+	videoPath = "/intro.vds";
 	musicNumber = 0;
 	topText = "Hello Fireworlds!;;Select an option!";
 }

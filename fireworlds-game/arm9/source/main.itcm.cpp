@@ -290,12 +290,20 @@ int main()
 		AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND);
 	}
 
-	iprintf("Trying to init NitroFS...\n");
-	if(!nitroFSInit(NULL))
-		error("FATAL ERROR: Couldnt init FAT!\nMake sure you've correctly\nDLDI patched the ROM.\nHalting.");
-
+    #ifdef NITROFS
+    	iprintf("Trying to init NitroFS...\n");
+    	if(!nitroFSInit(NULL))
+    		error("FATAL ERROR: Couldnt init NitroFS.\nHalting.");
+    #else
+        iprintf("Trying to init FAT...\n");
+        if(!fatInitDefault())
+            error("FATAL ERROR: Couldnt init FAT!\nMake sure you've correctly\nDLDI patched the ROM.\nHalting.");
+        int chdir_err = chdir("/data/fworlds");
+        if(chdir_err != 0)
+            error("FATAL ERROR: Couldnt chdir to /data/fworlds\nMake sure you've placed\nall the game files there.\nHalting.");
+    #endif
 	iprintf("Trying to open test file...\n");
-	FILE* testLevel = fopen("/01.dgl", "rb");
+	FILE* testLevel = fopen("01.dgl", "rb");
 	if(testLevel == NULL) error("FATAL ERROR: Couldnt open test\nfile.Make sure you copied the\ndata folder in the root\nof the microSD.");
 	fclose(testLevel);
 	iprintf("All Ok! Starting!\n");

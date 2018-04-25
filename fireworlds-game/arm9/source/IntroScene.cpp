@@ -19,7 +19,7 @@ IntroScene::IntroScene() : Scene()
 	fires[0] = NULL;
 	texts[0] = new IntrotextActor(this, "PLAY", 0, -1);
 	texts[1] = new IntrotextActor(this, "CREDITS", 0, -1);
-	
+
 	texts[0]->vx = camvel - camvel/3;
 	texts[1]->vx = camvel - camvel/3;
 	texts[0]->y = 60;
@@ -29,15 +29,15 @@ IntroScene::IntroScene() : Scene()
 
 	actors.push_back(texts[0]);
 	actors.push_back(texts[1]);
-	
-	
+
+
 	for(int i = 0; i < 3; i++)
 	{
 		fireTargetX[i] = 0;
 		fireTargetY[i] = -60 + 60*i;
 	}
-	
-	videoPath = "/intro.vds";
+
+	videoPath = "intro.vds";
 	musicNumber = 0;
 	topText = "Hello Fireworlds!;;Select an option!";
 }
@@ -78,7 +78,7 @@ void IntroScene::tick()
 			p2->sizePerLife = 7;
 			p2->effect = FX_NOFRICTION;
 		}
-	
+
 	if(time % 5 == 0)
 	{
 		Particle* star = addParticle1000();
@@ -94,15 +94,15 @@ void IntroScene::tick()
 		star->y = rand() % (192*32) - (192*32/2);
 		star->nTexture = TEX_DIAMOND;
 		star->effect = FX_NOFRICTION;
-		
-		
+
+
 		star->r = 150+rand() % 100;
 		star->g = 150+rand() % 100;
 		star->b = 255;
 		star->a = 10+rand() % 21;
 	}
 	xCam += camvel;
-	
+
 	if(fires[0])
 	{
 		int ny = sinLerp(time*100) + sinLerp(time*240) + sinLerp(time*174)/2;
@@ -114,7 +114,7 @@ void IntroScene::tick()
 		fires[0]->vy *= 0.7;
 		fires[0]->vy -= dy/24;
 	}
-	
+
 	if((texts[0]->touched || inputKeysDown & KEY_A) && canChangeScene())
 	{
 		texts[0]->explode();
@@ -125,7 +125,7 @@ void IntroScene::tick()
 		texts[1]->explode();
 		doSceneChange(new CreditsScene(false));
 	}
-		
+
 	Scene::tick();
 }
 
@@ -143,7 +143,7 @@ f32 IntroScene::getNextTextY()
 	int y = irand(70);
 	while(abs(y-texty)<40)
 		y = irand(70);
-	
+
 	texty = y;
 	return y;
 }

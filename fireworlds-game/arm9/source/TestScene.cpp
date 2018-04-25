@@ -17,15 +17,15 @@ TestScene::TestScene() : Scene()
 {
 
 	fires[0] = NULL;
-	
-	
+
+
 	for(int i = 0; i < 3; i++)
 	{
 		fireTargetX[i] = 0;
 		fireTargetY[i] = -60 + 60*i;
 	}
-	
-//	videoPath = "/intro.vds";
+
+//	videoPath = "intro.vds";
 	musicNumber = 0;
 	topText = "Hello Fireworlds!;;Testing fireball!";
 }
@@ -46,8 +46,8 @@ void TestScene::tick()
 		fires[0]->colorShift = 0;
 		actors.push_back(fires[0]);
 	}
-	
-	
+
+
 	if(time % 5 == 0)
 	{
 		Particle* star = addParticle1000();
@@ -63,15 +63,15 @@ void TestScene::tick()
 		star->y = rand() % (192*32) - (192*32/2);
 		star->nTexture = TEX_DIAMOND;
 		star->effect = FX_NOFRICTION;
-		
-		
+
+
 		star->r = 150+rand() % 100;
 		star->g = 150+rand() % 100;
 		star->b = 255;
 		star->a = 10+rand() % 21;
 	}
 	xCam += camvel;
-	
+
 	if(fires[0])
 	{
 //		int ny = sinLerp(time*100) + sinLerp(time*240) + sinLerp(time*174)/2;
@@ -83,8 +83,8 @@ void TestScene::tick()
 		fires[0]->vy *= 0.7;
 		fires[0]->vy -= dy/24;
 	}
-	
-		
+
+
 	Scene::tick();
 }
 
@@ -102,7 +102,7 @@ f32 TestScene::getNextTextY()
 	int y = irand(70);
 	while(abs(y-texty)<40)
 		y = irand(70);
-	
+
 	texty = y;
 	return y;
 }

@@ -34,6 +34,10 @@ CFLAGS	:=	-g -Wall -O3 \
 			$(ARCH)
 
 CFLAGS	+=	$(INCLUDE) -DARM9
+ifeq ($(USE_NITROFS), 1)
+CFLAGS	+=	-DNITROFS
+endif
+
 CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions
 
 ASFLAGS	:=	-g $(ARCH) -march=armv5te -mtune=arm946e-s

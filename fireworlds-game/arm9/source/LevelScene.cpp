@@ -20,14 +20,11 @@
 #include "saver.h"
 #include "CreditsScene.h"
 
-//ar levName [60] = "0123456789012345678901";
-char levName [30] = "/01.dgl\0\0";
 
 LevelScene::LevelScene(int levelNum) : Scene()
 {
-	//I hate C strings. They are EVIL.
-	levName[1] = (char) ('0' + (levelNum/10)%10);
-	levName[2] = (char) ('0' + (levelNum)%10);
+    char levName[30];
+    sprintf(levName, "%02d.dgl", levelNum);
 	lev = new Level(levName, this);
 	this->levelNum = levelNum;
 

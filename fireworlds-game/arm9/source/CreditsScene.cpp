@@ -14,7 +14,7 @@
 
 CreditsScene::CreditsScene(bool playVideo) : Scene()
 {
-//	videoPath = "/ending.vds";
+//	videoPath = "ending.vds";
 	musicNumber = playVideo?7:1;
 	topText = "";
 	this->playVideo = playVideo;
@@ -45,7 +45,7 @@ void CreditsScene::tick()
 	if(time == s*4)	 	actors.push_back(new CreditsTextActor(this, 0, 40, true, 	"LEVEL MAKERS"));
 	if(time == s*4)	 	actors.push_back(new CreditsTextActor(this, 0, 00, false, 	"MARC B."));
 	if(time == s*4)		actors.push_back(new CreditsTextActor(this, 0, -30, false, "SIR_VOE"));
-	
+
 	if(time == s*5)	 	actors.push_back(new CreditsTextActor(this, 0, 30, true, 	"LIBRARIES"));
 	if(time == s*5)	 	actors.push_back(new CreditsTextActor(this, 0, -10, false, "LIBNDS"));
 	if(time == s*5)		actors.push_back(new CreditsTextActor(this, 0, -40, false, "ASLIB"));
@@ -58,10 +58,10 @@ void CreditsScene::tick()
 	if(time == s*7)	 	actors.push_back(new CreditsTextActor(this, 0, 0, false, 	"DIRBAIO"));
 	if(time == s*7)		actors.push_back(new CreditsTextActor(this, 0, -30, true, "JUNE 2011"));
 
-	if(time == s*8 && playVideo) videoPath = "/ending.vds";
+	if(time == s*8 && playVideo) videoPath = "ending.vds";
 	if(time == s*8+1 && canChangeScene()) doSceneChange(new IntroScene());
-	
-	
+
+
 	Scene::tick();
 }
 

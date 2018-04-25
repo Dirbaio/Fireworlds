@@ -8,9 +8,9 @@ endif
 export TARGET	:=	$(shell basename $(CURDIR))
 export TOPDIR	:=	$(CURDIR)
 
-# specify a directory which contains the nitro filesystem
-# this is relative to the Makefile
+ifeq ($(USE_NITROFS), 1)
 NITRO_FILES	    :=  nitro
+endif
 
 # These set the information text in the nds file
 GAME_TITLE      :=	Fireworlds

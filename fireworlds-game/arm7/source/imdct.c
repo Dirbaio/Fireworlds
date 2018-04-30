@@ -71,46 +71,46 @@
  **************************************************************************************/
 static void AntiAlias(int *x, int nBfly)
 {
-	int k, a0, b0, c0, c1;
-	const int *c;
+    int k, a0, b0, c0, c1;
+    const int *c;
 
-	/* csa = Q31 */
-	for (k = nBfly; k > 0; k--) {
-		c = csa[0];
-		x += 18;
+    /* csa = Q31 */
+    for (k = nBfly; k > 0; k--) {
+        c = csa[0];
+        x += 18;
 
-		a0 = x[-1];			c0 = *c;	c++;	b0 = x[0];		c1 = *c;	c++;
-		x[-1] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1;	
-		x[0] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
+        a0 = x[-1];         c0 = *c;    c++;    b0 = x[0];      c1 = *c;    c++;
+        x[-1] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1; 
+        x[0] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
 
-		a0 = x[-2];			c0 = *c;	c++;	b0 = x[1];		c1 = *c;	c++;
-		x[-2] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1;	
-		x[1] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
-		
-		a0 = x[-3];			c0 = *c;	c++;	b0 = x[2];		c1 = *c;	c++;
-		x[-3] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1;	
-		x[2] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
+        a0 = x[-2];         c0 = *c;    c++;    b0 = x[1];      c1 = *c;    c++;
+        x[-2] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1; 
+        x[1] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
+        
+        a0 = x[-3];         c0 = *c;    c++;    b0 = x[2];      c1 = *c;    c++;
+        x[-3] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1; 
+        x[2] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
 
-		a0 = x[-4];			c0 = *c;	c++;	b0 = x[3];		c1 = *c;	c++;
-		x[-4] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1;	
-		x[3] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
+        a0 = x[-4];         c0 = *c;    c++;    b0 = x[3];      c1 = *c;    c++;
+        x[-4] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1; 
+        x[3] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
 
-		a0 = x[-5];			c0 = *c;	c++;	b0 = x[4];		c1 = *c;	c++;
-		x[-5] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1;	
-		x[4] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
+        a0 = x[-5];         c0 = *c;    c++;    b0 = x[4];      c1 = *c;    c++;
+        x[-5] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1; 
+        x[4] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
 
-		a0 = x[-6];			c0 = *c;	c++;	b0 = x[5];		c1 = *c;	c++;
-		x[-6] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1;	
-		x[5] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
+        a0 = x[-6];         c0 = *c;    c++;    b0 = x[5];      c1 = *c;    c++;
+        x[-6] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1; 
+        x[5] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
 
-		a0 = x[-7];			c0 = *c;	c++;	b0 = x[6];		c1 = *c;	c++;
-		x[-7] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1;	
-		x[6] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
+        a0 = x[-7];         c0 = *c;    c++;    b0 = x[6];      c1 = *c;    c++;
+        x[-7] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1; 
+        x[6] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
 
-		a0 = x[-8];			c0 = *c;	c++;	b0 = x[7];		c1 = *c;	c++;
-		x[-8] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1;	
-		x[7] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
-	}
+        a0 = x[-8];         c0 = *c;    c++;    b0 = x[7];      c1 = *c;    c++;
+        x[-8] = (MULSHIFT32(c0, a0) - MULSHIFT32(c1, b0)) << 1; 
+        x[7] =  (MULSHIFT32(c0, b0) + MULSHIFT32(c1, a0)) << 1;
+    }
 }
 
 /**************************************************************************************
@@ -131,39 +131,39 @@ static void AntiAlias(int *x, int nBfly)
  **************************************************************************************/
 static void WinPrevious(int *xPrev, int *xPrevWin, int btPrev)
 {
-	int i, x, *xp, *xpwLo, *xpwHi, wLo, wHi;
-	const int *wpLo, *wpHi;
+    int i, x, *xp, *xpwLo, *xpwHi, wLo, wHi;
+    const int *wpLo, *wpHi;
 
-	xp = xPrev;
-	/* mapping (see IMDCT12x3): xPrev[0-2] = sum[6-8], xPrev[3-8] = sum[12-17] */
-	if (btPrev == 2) {
-		/* this could be reordered for minimum loads/stores */
-		wpLo = imdctWin[btPrev];
-		xPrevWin[ 0] = MULSHIFT32(wpLo[ 6], xPrev[2]) + MULSHIFT32(wpLo[0], xPrev[6]);
-		xPrevWin[ 1] = MULSHIFT32(wpLo[ 7], xPrev[1]) + MULSHIFT32(wpLo[1], xPrev[7]);
-		xPrevWin[ 2] = MULSHIFT32(wpLo[ 8], xPrev[0]) + MULSHIFT32(wpLo[2], xPrev[8]);
-		xPrevWin[ 3] = MULSHIFT32(wpLo[ 9], xPrev[0]) + MULSHIFT32(wpLo[3], xPrev[8]);
-		xPrevWin[ 4] = MULSHIFT32(wpLo[10], xPrev[1]) + MULSHIFT32(wpLo[4], xPrev[7]);
-		xPrevWin[ 5] = MULSHIFT32(wpLo[11], xPrev[2]) + MULSHIFT32(wpLo[5], xPrev[6]);
-		xPrevWin[ 6] = MULSHIFT32(wpLo[ 6], xPrev[5]);
-		xPrevWin[ 7] = MULSHIFT32(wpLo[ 7], xPrev[4]);
-		xPrevWin[ 8] = MULSHIFT32(wpLo[ 8], xPrev[3]);
-		xPrevWin[ 9] = MULSHIFT32(wpLo[ 9], xPrev[3]);
-		xPrevWin[10] = MULSHIFT32(wpLo[10], xPrev[4]);
-		xPrevWin[11] = MULSHIFT32(wpLo[11], xPrev[5]);
-		xPrevWin[12] = xPrevWin[13] = xPrevWin[14] = xPrevWin[15] = xPrevWin[16] = xPrevWin[17] = 0;
-	} else {
-		/* use ARM-style pointers (*ptr++) so that ADS compiles well */
-		wpLo = imdctWin[btPrev] + 18;
-		wpHi = wpLo + 17;
-		xpwLo = xPrevWin;
-		xpwHi = xPrevWin + 17;
-		for (i = 9; i > 0; i--) {
-			x = *xp++;	wLo = *wpLo++;	wHi = *wpHi--;
-			*xpwLo++ = MULSHIFT32(wLo, x);
-			*xpwHi-- = MULSHIFT32(wHi, x);
-		}
-	}
+    xp = xPrev;
+    /* mapping (see IMDCT12x3): xPrev[0-2] = sum[6-8], xPrev[3-8] = sum[12-17] */
+    if (btPrev == 2) {
+        /* this could be reordered for minimum loads/stores */
+        wpLo = imdctWin[btPrev];
+        xPrevWin[ 0] = MULSHIFT32(wpLo[ 6], xPrev[2]) + MULSHIFT32(wpLo[0], xPrev[6]);
+        xPrevWin[ 1] = MULSHIFT32(wpLo[ 7], xPrev[1]) + MULSHIFT32(wpLo[1], xPrev[7]);
+        xPrevWin[ 2] = MULSHIFT32(wpLo[ 8], xPrev[0]) + MULSHIFT32(wpLo[2], xPrev[8]);
+        xPrevWin[ 3] = MULSHIFT32(wpLo[ 9], xPrev[0]) + MULSHIFT32(wpLo[3], xPrev[8]);
+        xPrevWin[ 4] = MULSHIFT32(wpLo[10], xPrev[1]) + MULSHIFT32(wpLo[4], xPrev[7]);
+        xPrevWin[ 5] = MULSHIFT32(wpLo[11], xPrev[2]) + MULSHIFT32(wpLo[5], xPrev[6]);
+        xPrevWin[ 6] = MULSHIFT32(wpLo[ 6], xPrev[5]);
+        xPrevWin[ 7] = MULSHIFT32(wpLo[ 7], xPrev[4]);
+        xPrevWin[ 8] = MULSHIFT32(wpLo[ 8], xPrev[3]);
+        xPrevWin[ 9] = MULSHIFT32(wpLo[ 9], xPrev[3]);
+        xPrevWin[10] = MULSHIFT32(wpLo[10], xPrev[4]);
+        xPrevWin[11] = MULSHIFT32(wpLo[11], xPrev[5]);
+        xPrevWin[12] = xPrevWin[13] = xPrevWin[14] = xPrevWin[15] = xPrevWin[16] = xPrevWin[17] = 0;
+    } else {
+        /* use ARM-style pointers (*ptr++) so that ADS compiles well */
+        wpLo = imdctWin[btPrev] + 18;
+        wpHi = wpLo + 17;
+        xpwLo = xPrevWin;
+        xpwHi = xPrevWin + 17;
+        for (i = 9; i > 0; i--) {
+            x = *xp++;  wLo = *wpLo++;  wHi = *wpHi--;
+            *xpwLo++ = MULSHIFT32(wLo, x);
+            *xpwHi-- = MULSHIFT32(wHi, x);
+        }
+    }
 }
 
 /**************************************************************************************
@@ -184,54 +184,54 @@ static void WinPrevious(int *xPrev, int *xPrevWin, int btPrev)
  **************************************************************************************/
 static int FreqInvertRescale(int *y, int *xPrev, int blockIdx, int es)
 {
-	int i, d, mOut;
-	int y0, y1, y2, y3, y4, y5, y6, y7, y8;
+    int i, d, mOut;
+    int y0, y1, y2, y3, y4, y5, y6, y7, y8;
 
-	if (es == 0) {
-		/* fast case - frequency invert only (no rescaling) - can fuse into overlap-add for speed, if desired */
-		if (blockIdx & 0x01) {
-			y += NBANDS;
-			y0 = *y;	y += 2*NBANDS;
-			y1 = *y;	y += 2*NBANDS;
-			y2 = *y;	y += 2*NBANDS;
-			y3 = *y;	y += 2*NBANDS;
-			y4 = *y;	y += 2*NBANDS;
-			y5 = *y;	y += 2*NBANDS;
-			y6 = *y;	y += 2*NBANDS;
-			y7 = *y;	y += 2*NBANDS;
-			y8 = *y;	y += 2*NBANDS;
+    if (es == 0) {
+        /* fast case - frequency invert only (no rescaling) - can fuse into overlap-add for speed, if desired */
+        if (blockIdx & 0x01) {
+            y += NBANDS;
+            y0 = *y;    y += 2*NBANDS;
+            y1 = *y;    y += 2*NBANDS;
+            y2 = *y;    y += 2*NBANDS;
+            y3 = *y;    y += 2*NBANDS;
+            y4 = *y;    y += 2*NBANDS;
+            y5 = *y;    y += 2*NBANDS;
+            y6 = *y;    y += 2*NBANDS;
+            y7 = *y;    y += 2*NBANDS;
+            y8 = *y;    y += 2*NBANDS;
 
-			y -= 18*NBANDS;
-			*y = -y0;	y += 2*NBANDS;
-			*y = -y1;	y += 2*NBANDS;
-			*y = -y2;	y += 2*NBANDS;
-			*y = -y3;	y += 2*NBANDS;
-			*y = -y4;	y += 2*NBANDS;
-			*y = -y5;	y += 2*NBANDS;
-			*y = -y6;	y += 2*NBANDS;
-			*y = -y7;	y += 2*NBANDS;
-			*y = -y8;	y += 2*NBANDS;
-		}
-		return 0;
-	} else {
-		/* undo pre-IMDCT scaling, clipping if necessary */
-		mOut = 0;
-		if (blockIdx & 0x01) {
-			/* frequency invert */
-			for (i = 0; i < 18; i+=2) {
-				d = *y;		CLIP_2N(d, 31 - es);	*y = d << es;	mOut |= FASTABS(*y);	y += NBANDS;
-				d = -*y;	CLIP_2N(d, 31 - es);	*y = d << es;	mOut |= FASTABS(*y);	y += NBANDS;
-				d = *xPrev;	CLIP_2N(d, 31 - es);	*xPrev++ = d << es;
-			}
-		} else {
-			for (i = 0; i < 18; i+=2) {
-				d = *y;		CLIP_2N(d, 31 - es);	*y = d << es;	mOut |= FASTABS(*y);	y += NBANDS;
-				d = *y;		CLIP_2N(d, 31 - es);	*y = d << es;	mOut |= FASTABS(*y);	y += NBANDS;
-				d = *xPrev;	CLIP_2N(d, 31 - es);	*xPrev++ = d << es;
-			}
-		}
-		return mOut;
-	}
+            y -= 18*NBANDS;
+            *y = -y0;   y += 2*NBANDS;
+            *y = -y1;   y += 2*NBANDS;
+            *y = -y2;   y += 2*NBANDS;
+            *y = -y3;   y += 2*NBANDS;
+            *y = -y4;   y += 2*NBANDS;
+            *y = -y5;   y += 2*NBANDS;
+            *y = -y6;   y += 2*NBANDS;
+            *y = -y7;   y += 2*NBANDS;
+            *y = -y8;   y += 2*NBANDS;
+        }
+        return 0;
+    } else {
+        /* undo pre-IMDCT scaling, clipping if necessary */
+        mOut = 0;
+        if (blockIdx & 0x01) {
+            /* frequency invert */
+            for (i = 0; i < 18; i+=2) {
+                d = *y;     CLIP_2N(d, 31 - es);    *y = d << es;   mOut |= FASTABS(*y);    y += NBANDS;
+                d = -*y;    CLIP_2N(d, 31 - es);    *y = d << es;   mOut |= FASTABS(*y);    y += NBANDS;
+                d = *xPrev; CLIP_2N(d, 31 - es);    *xPrev++ = d << es;
+            }
+        } else {
+            for (i = 0; i < 18; i+=2) {
+                d = *y;     CLIP_2N(d, 31 - es);    *y = d << es;   mOut |= FASTABS(*y);    y += NBANDS;
+                d = *y;     CLIP_2N(d, 31 - es);    *y = d << es;   mOut |= FASTABS(*y);    y += NBANDS;
+                d = *xPrev; CLIP_2N(d, 31 - es);    *xPrev++ = d << es;
+            }
+        }
+        return mOut;
+    }
 }
 
 /* format = Q31
@@ -253,73 +253,73 @@ static const int c9_4 = 0x7e0e2e32;
  * cos(((0:8) + 0.5) * (pi/18)) 
  */
 static const int c18[9] = {
-	0x7f834ed0, 0x7ba3751d, 0x7401e4c1, 0x68d9f964, 0x5a82799a, 0x496af3e2, 0x36185aee, 0x2120fb83, 0x0b27eb5c, 
+    0x7f834ed0, 0x7ba3751d, 0x7401e4c1, 0x68d9f964, 0x5a82799a, 0x496af3e2, 0x36185aee, 0x2120fb83, 0x0b27eb5c, 
 };
 
 /* require at least 3 guard bits in x[] to ensure no overflow */
 static __inline void idct9(int *x)
 {
-	int a1, a2, a3, a4, a5, a6, a7, a8, a9;
-	int a10, a11, a12, a13, a14, a15, a16, a17, a18;
-	int a19, a20, a21, a22, a23, a24, a25, a26, a27;
-	int m1, m3, m5, m6, m7, m8, m9, m10, m11, m12;
-	int x0, x1, x2, x3, x4, x5, x6, x7, x8;
+    int a1, a2, a3, a4, a5, a6, a7, a8, a9;
+    int a10, a11, a12, a13, a14, a15, a16, a17, a18;
+    int a19, a20, a21, a22, a23, a24, a25, a26, a27;
+    int m1, m3, m5, m6, m7, m8, m9, m10, m11, m12;
+    int x0, x1, x2, x3, x4, x5, x6, x7, x8;
 
-	x0 = x[0]; x1 = x[1]; x2 = x[2]; x3 = x[3]; x4 = x[4];
-	x5 = x[5]; x6 = x[6]; x7 = x[7]; x8 = x[8];
+    x0 = x[0]; x1 = x[1]; x2 = x[2]; x3 = x[3]; x4 = x[4];
+    x5 = x[5]; x6 = x[6]; x7 = x[7]; x8 = x[8];
 
-	a1 = x0 - x6;
-	a2 = x1 - x5;
-	a3 = x1 + x5;
-	a4 = x2 - x4;
-	a5 = x2 + x4;
-	a6 = x2 + x8;
-	a7 = x1 + x7;
+    a1 = x0 - x6;
+    a2 = x1 - x5;
+    a3 = x1 + x5;
+    a4 = x2 - x4;
+    a5 = x2 + x4;
+    a6 = x2 + x8;
+    a7 = x1 + x7;
 
-	a8 = a6 - a5;		/* ie x[8] - x[4] */
-	a9 = a3 - a7;		/* ie x[5] - x[7] */
-	a10 = a2 - x7;		/* ie x[1] - x[5] - x[7] */
-	a11 = a4 - x8;		/* ie x[2] - x[4] - x[8] */
+    a8 = a6 - a5;       /* ie x[8] - x[4] */
+    a9 = a3 - a7;       /* ie x[5] - x[7] */
+    a10 = a2 - x7;      /* ie x[1] - x[5] - x[7] */
+    a11 = a4 - x8;      /* ie x[2] - x[4] - x[8] */
 
-	/* do the << 1 as constant shifts where mX is actually used (free, no stall or extra inst.) */
-	m1 =  MULSHIFT32(c9_0, x3);
-	m3 =  MULSHIFT32(c9_0, a10);
-	m5 =  MULSHIFT32(c9_1, a5);
-	m6 =  MULSHIFT32(c9_2, a6);
-	m7 =  MULSHIFT32(c9_1, a8);
-	m8 =  MULSHIFT32(c9_2, a5);
-	m9 =  MULSHIFT32(c9_3, a9);
-	m10 = MULSHIFT32(c9_4, a7);
-	m11 = MULSHIFT32(c9_3, a3);
-	m12 = MULSHIFT32(c9_4, a9);
+    /* do the << 1 as constant shifts where mX is actually used (free, no stall or extra inst.) */
+    m1 =  MULSHIFT32(c9_0, x3);
+    m3 =  MULSHIFT32(c9_0, a10);
+    m5 =  MULSHIFT32(c9_1, a5);
+    m6 =  MULSHIFT32(c9_2, a6);
+    m7 =  MULSHIFT32(c9_1, a8);
+    m8 =  MULSHIFT32(c9_2, a5);
+    m9 =  MULSHIFT32(c9_3, a9);
+    m10 = MULSHIFT32(c9_4, a7);
+    m11 = MULSHIFT32(c9_3, a3);
+    m12 = MULSHIFT32(c9_4, a9);
 
-	a12 = x[0] +  (x[6] >> 1);
-	a13 = a12  +  (  m1 << 1);
-	a14 = a12  -  (  m1 << 1);
-	a15 = a1   +  ( a11 >> 1);
-	a16 = ( m5 << 1) + (m6 << 1);
-	a17 = ( m7 << 1) - (m8 << 1);
-	a18 = a16 + a17;
-	a19 = ( m9 << 1) + (m10 << 1);
-	a20 = (m11 << 1) - (m12 << 1);
+    a12 = x[0] +  (x[6] >> 1);
+    a13 = a12  +  (  m1 << 1);
+    a14 = a12  -  (  m1 << 1);
+    a15 = a1   +  ( a11 >> 1);
+    a16 = ( m5 << 1) + (m6 << 1);
+    a17 = ( m7 << 1) - (m8 << 1);
+    a18 = a16 + a17;
+    a19 = ( m9 << 1) + (m10 << 1);
+    a20 = (m11 << 1) - (m12 << 1);
 
-	a21 = a20 - a19;
-	a22 = a13 + a16;
-	a23 = a14 + a16;
-	a24 = a14 + a17;
-	a25 = a13 + a17;
-	a26 = a14 - a18;
-	a27 = a13 - a18;
+    a21 = a20 - a19;
+    a22 = a13 + a16;
+    a23 = a14 + a16;
+    a24 = a14 + a17;
+    a25 = a13 + a17;
+    a26 = a14 - a18;
+    a27 = a13 - a18;
 
-	x0 = a22 + a19;			x[0] = x0;
-	x1 = a15 + (m3 << 1);	x[1] = x1;
-	x2 = a24 + a20;			x[2] = x2;
-	x3 = a26 - a21;			x[3] = x3;
-	x4 = a1 - a11;			x[4] = x4;
-	x5 = a27 + a21;			x[5] = x5;
-	x6 = a25 - a20;			x[6] = x6;
-	x7 = a15 - (m3 << 1);	x[7] = x7;
-	x8 = a23 - a19;			x[8] = x8;
+    x0 = a22 + a19;         x[0] = x0;
+    x1 = a15 + (m3 << 1);   x[1] = x1;
+    x2 = a24 + a20;         x[2] = x2;
+    x3 = a26 - a21;         x[3] = x3;
+    x4 = a1 - a11;          x[4] = x4;
+    x5 = a27 + a21;         x[5] = x5;
+    x6 = a25 - a20;         x[6] = x6;
+    x7 = a15 - (m3 << 1);   x[7] = x7;
+    x8 = a23 - a19;         x[8] = x8;
 }
 
 /* let c(j) = cos(M_PI/36 * ((j)+0.5)), s(j) = sin(M_PI/36 * ((j)+0.5))
@@ -328,9 +328,9 @@ static __inline void idct9(int *x)
  * format = Q30
  */
 static const int fastWin36[18] = {
-	0x42aace8b, 0xc2e92724, 0x47311c28, 0xc95f619a, 0x4a868feb, 0xd0859d8c,
-	0x4c913b51, 0xd8243ea0, 0x4d413ccc, 0xe0000000, 0x4c913b51, 0xe7dbc161,
-	0x4a868feb, 0xef7a6275, 0x47311c28, 0xf6a09e67, 0x42aace8b, 0xfd16d8dd,
+    0x42aace8b, 0xc2e92724, 0x47311c28, 0xc95f619a, 0x4a868feb, 0xd0859d8c,
+    0x4c913b51, 0xd8243ea0, 0x4d413ccc, 0xe0000000, 0x4c913b51, 0xe7dbc161,
+    0x4a868feb, 0xef7a6275, 0x47311c28, 0xf6a09e67, 0x42aace8b, 0xfd16d8dd,
 };
 
 /**************************************************************************************
@@ -367,149 +367,149 @@ static const int fastWin36[18] = {
  **************************************************************************************/
 static int IMDCT36(int *xCurr, int *xPrev, int *y, int btCurr, int btPrev, int blockIdx, int gb)
 {
-	int i, es, xBuf[18], xPrevWin[18];
-	int acc1, acc2, s, d, t, mOut;
-	int xo, xe, c, *xp, yLo, yHi;
-	const int *cp, *wp;
+    int i, es, xBuf[18], xPrevWin[18];
+    int acc1, acc2, s, d, t, mOut;
+    int xo, xe, c, *xp, yLo, yHi;
+    const int *cp, *wp;
 
-	acc1 = acc2 = 0;
-	xCurr += 17;
+    acc1 = acc2 = 0;
+    xCurr += 17;
 
-	/* 7 gb is always adequate for antialias + accumulator loop + idct9 */
-	if (gb < 7) {
-		/* rarely triggered - 5% to 10% of the time on normal clips (with Q25 input) */
-		es = 7 - gb;
-		for (i = 8; i >= 0; i--) {	
-			acc1 = ((*xCurr--) >> es) - acc1;
-			acc2 = acc1 - acc2;
-			acc1 = ((*xCurr--) >> es) - acc1;
-			xBuf[i+9] = acc2;	/* odd */
-			xBuf[i+0] = acc1;	/* even */
-			xPrev[i] >>= es;
-		}
-	} else {
-		es = 0;
-		/* max gain = 18, assume adequate guard bits */
-		for (i = 8; i >= 0; i--) {	
-			acc1 = (*xCurr--) - acc1;
-			acc2 = acc1 - acc2;
-			acc1 = (*xCurr--) - acc1;
-			xBuf[i+9] = acc2;	/* odd */
-			xBuf[i+0] = acc1;	/* even */
-		}
-	}
-	/* xEven[0] and xOdd[0] scaled by 0.5 */
-	xBuf[9] >>= 1;
-	xBuf[0] >>= 1;
+    /* 7 gb is always adequate for antialias + accumulator loop + idct9 */
+    if (gb < 7) {
+        /* rarely triggered - 5% to 10% of the time on normal clips (with Q25 input) */
+        es = 7 - gb;
+        for (i = 8; i >= 0; i--) {  
+            acc1 = ((*xCurr--) >> es) - acc1;
+            acc2 = acc1 - acc2;
+            acc1 = ((*xCurr--) >> es) - acc1;
+            xBuf[i+9] = acc2;   /* odd */
+            xBuf[i+0] = acc1;   /* even */
+            xPrev[i] >>= es;
+        }
+    } else {
+        es = 0;
+        /* max gain = 18, assume adequate guard bits */
+        for (i = 8; i >= 0; i--) {  
+            acc1 = (*xCurr--) - acc1;
+            acc2 = acc1 - acc2;
+            acc1 = (*xCurr--) - acc1;
+            xBuf[i+9] = acc2;   /* odd */
+            xBuf[i+0] = acc1;   /* even */
+        }
+    }
+    /* xEven[0] and xOdd[0] scaled by 0.5 */
+    xBuf[9] >>= 1;
+    xBuf[0] >>= 1;
 
-	/* do 9-point IDCT on even and odd */
-	idct9(xBuf+0);	/* even */
-	idct9(xBuf+9);	/* odd */
+    /* do 9-point IDCT on even and odd */
+    idct9(xBuf+0);  /* even */
+    idct9(xBuf+9);  /* odd */
 
-	xp = xBuf + 8;
-	cp = c18 + 8;
-	mOut = 0;
-	if (btPrev == 0 && btCurr == 0) {
-		/* fast path - use symmetry of sin window to reduce windowing multiplies to 18 (N/2) */
-		wp = fastWin36;
-		for (i = 0; i < 9; i++) {
-			/* do ARM-style pointer arithmetic (i still needed for y[] indexing - compiler spills if 2 y pointers) */
-			c = *cp--;	xo = *(xp + 9);		xe = *xp--;
-			/* gain 2 int bits here */
-			xo = MULSHIFT32(c, xo);			/* 2*c18*xOdd (mul by 2 implicit in scaling)  */
-			xe >>= 2;
+    xp = xBuf + 8;
+    cp = c18 + 8;
+    mOut = 0;
+    if (btPrev == 0 && btCurr == 0) {
+        /* fast path - use symmetry of sin window to reduce windowing multiplies to 18 (N/2) */
+        wp = fastWin36;
+        for (i = 0; i < 9; i++) {
+            /* do ARM-style pointer arithmetic (i still needed for y[] indexing - compiler spills if 2 y pointers) */
+            c = *cp--;  xo = *(xp + 9);     xe = *xp--;
+            /* gain 2 int bits here */
+            xo = MULSHIFT32(c, xo);         /* 2*c18*xOdd (mul by 2 implicit in scaling)  */
+            xe >>= 2;
 
-			s = -(*xPrev);		/* sum from last block (always at least 2 guard bits) */
-			d = -(xe - xo);		/* gain 2 int bits, don't shift xo (effective << 1 to eat sign bit, << 1 for mul by 2) */
-			(*xPrev++) = xe + xo;			/* symmetry - xPrev[i] = xPrev[17-i] for long blocks */
-			t = s - d;
+            s = -(*xPrev);      /* sum from last block (always at least 2 guard bits) */
+            d = -(xe - xo);     /* gain 2 int bits, don't shift xo (effective << 1 to eat sign bit, << 1 for mul by 2) */
+            (*xPrev++) = xe + xo;           /* symmetry - xPrev[i] = xPrev[17-i] for long blocks */
+            t = s - d;
 
-			yLo = (d + (MULSHIFT32(t, *wp++) << 2));
-			yHi = (s + (MULSHIFT32(t, *wp++) << 2));
-			y[(i)*NBANDS]    = 	yLo;
-			y[(17-i)*NBANDS] =  yHi;
-			mOut |= FASTABS(yLo);
-			mOut |= FASTABS(yHi);
-		}
-	} else {
-		/* slower method - either prev or curr is using window type != 0 so do full 36-point window 
-		 * output xPrevWin has at least 3 guard bits (xPrev has 2, gain 1 in WinPrevious)
-		 */
-		WinPrevious(xPrev, xPrevWin, btPrev);
+            yLo = (d + (MULSHIFT32(t, *wp++) << 2));
+            yHi = (s + (MULSHIFT32(t, *wp++) << 2));
+            y[(i)*NBANDS]    =  yLo;
+            y[(17-i)*NBANDS] =  yHi;
+            mOut |= FASTABS(yLo);
+            mOut |= FASTABS(yHi);
+        }
+    } else {
+        /* slower method - either prev or curr is using window type != 0 so do full 36-point window 
+         * output xPrevWin has at least 3 guard bits (xPrev has 2, gain 1 in WinPrevious)
+         */
+        WinPrevious(xPrev, xPrevWin, btPrev);
 
-		wp = imdctWin[btCurr];
-		for (i = 0; i < 9; i++) {
-			c = *cp--;	xo = *(xp + 9);		xe = *xp--;
-			/* gain 2 int bits here */
-			xo = MULSHIFT32(c, xo);			/* 2*c18*xOdd (mul by 2 implicit in scaling)  */
-			xe >>= 2;
+        wp = imdctWin[btCurr];
+        for (i = 0; i < 9; i++) {
+            c = *cp--;  xo = *(xp + 9);     xe = *xp--;
+            /* gain 2 int bits here */
+            xo = MULSHIFT32(c, xo);         /* 2*c18*xOdd (mul by 2 implicit in scaling)  */
+            xe >>= 2;
 
-			d = xe - xo;
-			(*xPrev++) = xe + xo;	/* symmetry - xPrev[i] = xPrev[17-i] for long blocks */
-			
-			yLo = (xPrevWin[i]    + MULSHIFT32(d, wp[i])) << 2;
-			yHi = (xPrevWin[17-i] + MULSHIFT32(d, wp[17-i])) << 2;
-			y[(i)*NBANDS]    = yLo;
-			y[(17-i)*NBANDS] = yHi;
-			mOut |= FASTABS(yLo);
-			mOut |= FASTABS(yHi);
-		}
-	}
+            d = xe - xo;
+            (*xPrev++) = xe + xo;   /* symmetry - xPrev[i] = xPrev[17-i] for long blocks */
+            
+            yLo = (xPrevWin[i]    + MULSHIFT32(d, wp[i])) << 2;
+            yHi = (xPrevWin[17-i] + MULSHIFT32(d, wp[17-i])) << 2;
+            y[(i)*NBANDS]    = yLo;
+            y[(17-i)*NBANDS] = yHi;
+            mOut |= FASTABS(yLo);
+            mOut |= FASTABS(yHi);
+        }
+    }
 
-	xPrev -= 9;
-	mOut |= FreqInvertRescale(y, xPrev, blockIdx, es);
+    xPrev -= 9;
+    mOut |= FreqInvertRescale(y, xPrev, blockIdx, es);
 
-	return mOut;
+    return mOut;
 }
 
-static const int c3_0 = 0x6ed9eba1;	/* format = Q31, cos(pi/6) */
-static const int c6[3] = { 0x7ba3751d, 0x5a82799a, 0x2120fb83 };	/* format = Q31, cos(((0:2) + 0.5) * (pi/6)) */
+static const int c3_0 = 0x6ed9eba1; /* format = Q31, cos(pi/6) */
+static const int c6[3] = { 0x7ba3751d, 0x5a82799a, 0x2120fb83 };    /* format = Q31, cos(((0:2) + 0.5) * (pi/6)) */
 
 /* 12-point inverse DCT, used in IMDCT12x3() 
  * 4 input guard bits will ensure no overflow
  */
 static __inline void imdct12 (int *x, int *out)
 {
-	int a0, a1, a2;
-	int x0, x1, x2, x3, x4, x5;
+    int a0, a1, a2;
+    int x0, x1, x2, x3, x4, x5;
 
-	x0 = *x;	x+=3;	x1 = *x;	x+=3;
-	x2 = *x;	x+=3;	x3 = *x;	x+=3;
-	x4 = *x;	x+=3;	x5 = *x;	x+=3;
+    x0 = *x;    x+=3;   x1 = *x;    x+=3;
+    x2 = *x;    x+=3;   x3 = *x;    x+=3;
+    x4 = *x;    x+=3;   x5 = *x;    x+=3;
 
-	x4 -= x5;
-	x3 -= x4;
-	x2 -= x3;
-	x3 -= x5;
-	x1 -= x2;
-	x0 -= x1;
-	x1 -= x3;
+    x4 -= x5;
+    x3 -= x4;
+    x2 -= x3;
+    x3 -= x5;
+    x1 -= x2;
+    x0 -= x1;
+    x1 -= x3;
 
-	x0 >>= 1;
-	x1 >>= 1;
+    x0 >>= 1;
+    x1 >>= 1;
 
-	a0 = MULSHIFT32(c3_0, x2) << 1;
-	a1 = x0 + (x4 >> 1);
-	a2 = x0 - x4;
-	x0 = a1 + a0;
-	x2 = a2;
-	x4 = a1 - a0;
+    a0 = MULSHIFT32(c3_0, x2) << 1;
+    a1 = x0 + (x4 >> 1);
+    a2 = x0 - x4;
+    x0 = a1 + a0;
+    x2 = a2;
+    x4 = a1 - a0;
 
-	a0 = MULSHIFT32(c3_0, x3) << 1;
-	a1 = x1 + (x5 >> 1);
-	a2 = x1 - x5;
+    a0 = MULSHIFT32(c3_0, x3) << 1;
+    a1 = x1 + (x5 >> 1);
+    a2 = x1 - x5;
 
-	/* cos window odd samples, mul by 2, eat sign bit */
-	x1 = MULSHIFT32(c6[0], a1 + a0) << 2;			
-	x3 = MULSHIFT32(c6[1], a2) << 2;
-	x5 = MULSHIFT32(c6[2], a1 - a0) << 2;
+    /* cos window odd samples, mul by 2, eat sign bit */
+    x1 = MULSHIFT32(c6[0], a1 + a0) << 2;           
+    x3 = MULSHIFT32(c6[1], a2) << 2;
+    x5 = MULSHIFT32(c6[2], a1 - a0) << 2;
 
-	*out = x0 + x1;	out++;
-	*out = x2 + x3;	out++;
-	*out = x4 + x5;	out++;
-	*out = x4 - x5;	out++;
-	*out = x2 - x3;	out++;
-	*out = x0 - x1;
+    *out = x0 + x1; out++;
+    *out = x2 + x3; out++;
+    *out = x4 + x5; out++;
+    *out = x4 - x5; out++;
+    *out = x2 - x3; out++;
+    *out = x0 - x1;
 }
 
 /**************************************************************************************
@@ -535,60 +535,60 @@ static __inline void imdct12 (int *x, int *out)
  **************************************************************************************/
 static int IMDCT12x3(int *xCurr, int *xPrev, int *y, int btPrev, int blockIdx, int gb)
 {
-	int i, es, mOut, yLo, xBuf[18], xPrevWin[18];	/* need temp buffer for reordering short blocks */
-	const int *wp;
+    int i, es, mOut, yLo, xBuf[18], xPrevWin[18];   /* need temp buffer for reordering short blocks */
+    const int *wp;
 
-	es = 0;
-	/* 7 gb is always adequate for accumulator loop + idct12 + window + overlap */
-	if (gb < 7) {
-		es = 7 - gb;
-		for (i = 0; i < 18; i+=2) {
-			xCurr[i+0] >>= es;
-			xCurr[i+1] >>= es;
-			*xPrev++ >>= es;
-		}
-		xPrev -= 9;
-	}
+    es = 0;
+    /* 7 gb is always adequate for accumulator loop + idct12 + window + overlap */
+    if (gb < 7) {
+        es = 7 - gb;
+        for (i = 0; i < 18; i+=2) {
+            xCurr[i+0] >>= es;
+            xCurr[i+1] >>= es;
+            *xPrev++ >>= es;
+        }
+        xPrev -= 9;
+    }
 
-	/* requires 4 input guard bits for each imdct12 */
-	imdct12(xCurr + 0, xBuf + 0);
-	imdct12(xCurr + 1, xBuf + 6);
-	imdct12(xCurr + 2, xBuf + 12);
+    /* requires 4 input guard bits for each imdct12 */
+    imdct12(xCurr + 0, xBuf + 0);
+    imdct12(xCurr + 1, xBuf + 6);
+    imdct12(xCurr + 2, xBuf + 12);
 
-	/* window previous from last time */
-	WinPrevious(xPrev, xPrevWin, btPrev);
+    /* window previous from last time */
+    WinPrevious(xPrev, xPrevWin, btPrev);
 
-	/* could unroll this for speed, minimum loads (short blocks usually rare, so doesn't make much overall difference) 
-	 * xPrevWin[i] << 2 still has 1 gb always, max gain of windowed xBuf stuff also < 1.0 and gain the sign bit
-	 * so y calculations won't overflow
-	 */
-	wp = imdctWin[2];
-	mOut = 0;
-	for (i = 0; i < 3; i++) {
-		yLo = (xPrevWin[ 0+i] << 2);
-		mOut |= FASTABS(yLo);	y[( 0+i)*NBANDS] = yLo;
-		yLo = (xPrevWin[ 3+i] << 2);
-		mOut |= FASTABS(yLo);	y[( 3+i)*NBANDS] = yLo;
-		yLo = (xPrevWin[ 6+i] << 2) + (MULSHIFT32(wp[0+i], xBuf[3+i]));	
-		mOut |= FASTABS(yLo);	y[( 6+i)*NBANDS] = yLo;
-		yLo = (xPrevWin[ 9+i] << 2) + (MULSHIFT32(wp[3+i], xBuf[5-i]));	
-		mOut |= FASTABS(yLo);	y[( 9+i)*NBANDS] = yLo;
-		yLo = (xPrevWin[12+i] << 2) + (MULSHIFT32(wp[6+i], xBuf[2-i]) + MULSHIFT32(wp[0+i], xBuf[(6+3)+i]));	
-		mOut |= FASTABS(yLo);	y[(12+i)*NBANDS] = yLo;
-		yLo = (xPrevWin[15+i] << 2) + (MULSHIFT32(wp[9+i], xBuf[0+i]) + MULSHIFT32(wp[3+i], xBuf[(6+5)-i]));	
-		mOut |= FASTABS(yLo);	y[(15+i)*NBANDS] = yLo;
-	}
+    /* could unroll this for speed, minimum loads (short blocks usually rare, so doesn't make much overall difference) 
+     * xPrevWin[i] << 2 still has 1 gb always, max gain of windowed xBuf stuff also < 1.0 and gain the sign bit
+     * so y calculations won't overflow
+     */
+    wp = imdctWin[2];
+    mOut = 0;
+    for (i = 0; i < 3; i++) {
+        yLo = (xPrevWin[ 0+i] << 2);
+        mOut |= FASTABS(yLo);   y[( 0+i)*NBANDS] = yLo;
+        yLo = (xPrevWin[ 3+i] << 2);
+        mOut |= FASTABS(yLo);   y[( 3+i)*NBANDS] = yLo;
+        yLo = (xPrevWin[ 6+i] << 2) + (MULSHIFT32(wp[0+i], xBuf[3+i])); 
+        mOut |= FASTABS(yLo);   y[( 6+i)*NBANDS] = yLo;
+        yLo = (xPrevWin[ 9+i] << 2) + (MULSHIFT32(wp[3+i], xBuf[5-i])); 
+        mOut |= FASTABS(yLo);   y[( 9+i)*NBANDS] = yLo;
+        yLo = (xPrevWin[12+i] << 2) + (MULSHIFT32(wp[6+i], xBuf[2-i]) + MULSHIFT32(wp[0+i], xBuf[(6+3)+i]));    
+        mOut |= FASTABS(yLo);   y[(12+i)*NBANDS] = yLo;
+        yLo = (xPrevWin[15+i] << 2) + (MULSHIFT32(wp[9+i], xBuf[0+i]) + MULSHIFT32(wp[3+i], xBuf[(6+5)-i]));    
+        mOut |= FASTABS(yLo);   y[(15+i)*NBANDS] = yLo;
+    }
 
-	/* save previous (unwindowed) for overlap - only need samples 6-8, 12-17 */
-	for (i = 6; i < 9; i++)
-		*xPrev++ = xBuf[i] >> 2;
-	for (i = 12; i < 18; i++)
-		*xPrev++ = xBuf[i] >> 2;
+    /* save previous (unwindowed) for overlap - only need samples 6-8, 12-17 */
+    for (i = 6; i < 9; i++)
+        *xPrev++ = xBuf[i] >> 2;
+    for (i = 12; i < 18; i++)
+        *xPrev++ = xBuf[i] >> 2;
 
-	xPrev -= 9;
-	mOut |= FreqInvertRescale(y, xPrev, blockIdx, es);
+    xPrev -= 9;
+    mOut |= FreqInvertRescale(y, xPrev, blockIdx, es);
 
-	return mOut;
+    return mOut;
 }
 
 /**************************************************************************************
@@ -617,85 +617,85 @@ static int IMDCT12x3(int *xCurr, int *xPrev, int *y, int btPrev, int blockIdx, i
  **************************************************************************************/
 static int HybridTransform(int *xCurr, int *xPrev, int y[BLOCK_SIZE][NBANDS], SideInfoSub *sis, BlockCount *bc)
 {
-	int xPrevWin[18], currWinIdx, prevWinIdx;
-	int i, j, nBlocksOut, nonZero, mOut;
-	int fiBit, xp;
+    int xPrevWin[18], currWinIdx, prevWinIdx;
+    int i, j, nBlocksOut, nonZero, mOut;
+    int fiBit, xp;
 
-	ASSERT(bc->nBlocksLong  <= NBANDS);
-	ASSERT(bc->nBlocksTotal <= NBANDS);
-	ASSERT(bc->nBlocksPrev  <= NBANDS);
+    ASSERT(bc->nBlocksLong  <= NBANDS);
+    ASSERT(bc->nBlocksTotal <= NBANDS);
+    ASSERT(bc->nBlocksPrev  <= NBANDS);
 
-	mOut = 0;
+    mOut = 0;
 
-	/* do long blocks, if any */
-	for(i = 0; i < bc->nBlocksLong; i++) {
-		/* currWinIdx picks the right window for long blocks (if mixed, long blocks use window type 0) */
-		currWinIdx = sis->blockType;
-		if (sis->mixedBlock && i < bc->currWinSwitch) 
-			currWinIdx = 0;
+    /* do long blocks, if any */
+    for(i = 0; i < bc->nBlocksLong; i++) {
+        /* currWinIdx picks the right window for long blocks (if mixed, long blocks use window type 0) */
+        currWinIdx = sis->blockType;
+        if (sis->mixedBlock && i < bc->currWinSwitch) 
+            currWinIdx = 0;
 
-		prevWinIdx = bc->prevType;
-		if (i < bc->prevWinSwitch)
-			 prevWinIdx = 0;
+        prevWinIdx = bc->prevType;
+        if (i < bc->prevWinSwitch)
+             prevWinIdx = 0;
 
-		/* do 36-point IMDCT, including windowing and overlap-add */
-		mOut |= IMDCT36(xCurr, xPrev, &(y[0][i]), currWinIdx, prevWinIdx, i, bc->gbIn);
-		xCurr += 18;
-		xPrev += 9;
-	}
+        /* do 36-point IMDCT, including windowing and overlap-add */
+        mOut |= IMDCT36(xCurr, xPrev, &(y[0][i]), currWinIdx, prevWinIdx, i, bc->gbIn);
+        xCurr += 18;
+        xPrev += 9;
+    }
 
-	/* do short blocks (if any) */
-	for (   ; i < bc->nBlocksTotal; i++) {
-		ASSERT(sis->blockType == 2);
+    /* do short blocks (if any) */
+    for (   ; i < bc->nBlocksTotal; i++) {
+        ASSERT(sis->blockType == 2);
 
-		prevWinIdx = bc->prevType;
-		if (i < bc->prevWinSwitch)
-			 prevWinIdx = 0;
-		
-		mOut |= IMDCT12x3(xCurr, xPrev, &(y[0][i]), prevWinIdx, i, bc->gbIn);
-		xCurr += 18;
-		xPrev += 9;
-	}
-	nBlocksOut = i;
-	
-	/* window and overlap prev if prev longer that current */
-	for (   ; i < bc->nBlocksPrev; i++) {
-		prevWinIdx = bc->prevType;
-		if (i < bc->prevWinSwitch)
-			 prevWinIdx = 0;
-		WinPrevious(xPrev, xPrevWin, prevWinIdx);
+        prevWinIdx = bc->prevType;
+        if (i < bc->prevWinSwitch)
+             prevWinIdx = 0;
+        
+        mOut |= IMDCT12x3(xCurr, xPrev, &(y[0][i]), prevWinIdx, i, bc->gbIn);
+        xCurr += 18;
+        xPrev += 9;
+    }
+    nBlocksOut = i;
+    
+    /* window and overlap prev if prev longer that current */
+    for (   ; i < bc->nBlocksPrev; i++) {
+        prevWinIdx = bc->prevType;
+        if (i < bc->prevWinSwitch)
+             prevWinIdx = 0;
+        WinPrevious(xPrev, xPrevWin, prevWinIdx);
 
-		nonZero = 0;
-		fiBit = i << 31;
-		for (j = 0; j < 9; j++) {
-			xp = xPrevWin[2*j+0] << 2;	/* << 2 temp for scaling */
-			nonZero |= xp;
-			y[2*j+0][i] = xp;
-			mOut |= FASTABS(xp);
+        nonZero = 0;
+        fiBit = i << 31;
+        for (j = 0; j < 9; j++) {
+            xp = xPrevWin[2*j+0] << 2;  /* << 2 temp for scaling */
+            nonZero |= xp;
+            y[2*j+0][i] = xp;
+            mOut |= FASTABS(xp);
 
-			/* frequency inversion on odd blocks/odd samples (flip sign if i odd, j odd) */
-			xp = xPrevWin[2*j+1] << 2;
-			xp = (xp ^ (fiBit >> 31)) + (i & 0x01);	
-			nonZero |= xp;
-			y[2*j+1][i] = xp;
-			mOut |= FASTABS(xp);
+            /* frequency inversion on odd blocks/odd samples (flip sign if i odd, j odd) */
+            xp = xPrevWin[2*j+1] << 2;
+            xp = (xp ^ (fiBit >> 31)) + (i & 0x01); 
+            nonZero |= xp;
+            y[2*j+1][i] = xp;
+            mOut |= FASTABS(xp);
 
-			xPrev[j] = 0;
-		}
-		xPrev += 9;
-		if (nonZero)
-			nBlocksOut = i;
-	}
-	
-	/* clear rest of blocks */
-	for (   ; i < 32; i++) {
-		for (j = 0; j < 18; j++) 
-			y[j][i] = 0;
-	}
+            xPrev[j] = 0;
+        }
+        xPrev += 9;
+        if (nonZero)
+            nBlocksOut = i;
+    }
+    
+    /* clear rest of blocks */
+    for (   ; i < 32; i++) {
+        for (j = 0; j < 18; j++) 
+            y[j][i] = 0;
+    }
 
-	bc->gbOut = CLZ(mOut) - 1;
+    bc->gbOut = CLZ(mOut) - 1;
 
-	return nBlocksOut;
+    return nBlocksOut;
 }
 
 /**************************************************************************************
@@ -716,64 +716,64 @@ static int HybridTransform(int *xCurr, int *xPrev, int y[BLOCK_SIZE][NBANDS], Si
  **************************************************************************************/
 int IMDCT(MP3DecInfo *mp3DecInfo, int gr, int ch)
 {
-	int nBfly, blockCutoff;
-	FrameHeader *fh;
-	SideInfo *si;
-	HuffmanInfo *hi;
-	IMDCTInfo *mi;
-	BlockCount bc;
+    int nBfly, blockCutoff;
+    FrameHeader *fh;
+    SideInfo *si;
+    HuffmanInfo *hi;
+    IMDCTInfo *mi;
+    BlockCount bc;
 
-	/* validate pointers */
-	if (!mp3DecInfo || !mp3DecInfo->FrameHeaderPS || !mp3DecInfo->SideInfoPS || 
-		!mp3DecInfo->HuffmanInfoPS || !mp3DecInfo->IMDCTInfoPS)
-		return -1;
+    /* validate pointers */
+    if (!mp3DecInfo || !mp3DecInfo->FrameHeaderPS || !mp3DecInfo->SideInfoPS || 
+        !mp3DecInfo->HuffmanInfoPS || !mp3DecInfo->IMDCTInfoPS)
+        return -1;
 
-	/* si is an array of up to 4 structs, stored as gr0ch0, gr0ch1, gr1ch0, gr1ch1 */
-	fh = (FrameHeader *)(mp3DecInfo->FrameHeaderPS);
-	si = (SideInfo *)(mp3DecInfo->SideInfoPS);
-	hi = (HuffmanInfo*)(mp3DecInfo->HuffmanInfoPS);
-	mi = (IMDCTInfo *)(mp3DecInfo->IMDCTInfoPS);
+    /* si is an array of up to 4 structs, stored as gr0ch0, gr0ch1, gr1ch0, gr1ch1 */
+    fh = (FrameHeader *)(mp3DecInfo->FrameHeaderPS);
+    si = (SideInfo *)(mp3DecInfo->SideInfoPS);
+    hi = (HuffmanInfo*)(mp3DecInfo->HuffmanInfoPS);
+    mi = (IMDCTInfo *)(mp3DecInfo->IMDCTInfoPS);
 
-	/* anti-aliasing done on whole long blocks only
-	 * for mixed blocks, nBfly always 1, except 3 for 8 kHz MPEG 2.5 (see sfBandTab) 
+    /* anti-aliasing done on whole long blocks only
+     * for mixed blocks, nBfly always 1, except 3 for 8 kHz MPEG 2.5 (see sfBandTab) 
      *   nLongBlocks = number of blocks with (possibly) non-zero power 
-	 *   nBfly = number of butterflies to do (nLongBlocks - 1, unless no long blocks)
-	 */
-	blockCutoff = fh->sfBand->l[(fh->ver == MPEG1 ? 8 : 6)] / 18;	/* same as 3* num short sfb's in spec */
-	if (si->sis[gr][ch].blockType != 2) {
-		/* all long transforms */
-		bc.nBlocksLong = MIN((hi->nonZeroBound[ch] + 7) / 18 + 1, 32);	
-		nBfly = bc.nBlocksLong - 1;
-	} else if (si->sis[gr][ch].blockType == 2 && si->sis[gr][ch].mixedBlock) {
-		/* mixed block - long transforms until cutoff, then short transforms */
-		bc.nBlocksLong = blockCutoff;	
-		nBfly = bc.nBlocksLong - 1;
-	} else {
-		/* all short transforms */
-		bc.nBlocksLong = 0;
-		nBfly = 0;
-	}
+     *   nBfly = number of butterflies to do (nLongBlocks - 1, unless no long blocks)
+     */
+    blockCutoff = fh->sfBand->l[(fh->ver == MPEG1 ? 8 : 6)] / 18;   /* same as 3* num short sfb's in spec */
+    if (si->sis[gr][ch].blockType != 2) {
+        /* all long transforms */
+        bc.nBlocksLong = MIN((hi->nonZeroBound[ch] + 7) / 18 + 1, 32);  
+        nBfly = bc.nBlocksLong - 1;
+    } else if (si->sis[gr][ch].blockType == 2 && si->sis[gr][ch].mixedBlock) {
+        /* mixed block - long transforms until cutoff, then short transforms */
+        bc.nBlocksLong = blockCutoff;   
+        nBfly = bc.nBlocksLong - 1;
+    } else {
+        /* all short transforms */
+        bc.nBlocksLong = 0;
+        nBfly = 0;
+    }
  
-	AntiAlias(hi->huffDecBuf[ch], nBfly);
-	hi->nonZeroBound[ch] = MAX(hi->nonZeroBound[ch], (nBfly * 18) + 8);
+    AntiAlias(hi->huffDecBuf[ch], nBfly);
+    hi->nonZeroBound[ch] = MAX(hi->nonZeroBound[ch], (nBfly * 18) + 8);
 
-	ASSERT(hi->nonZeroBound[ch] <= MAX_NSAMP);
+    ASSERT(hi->nonZeroBound[ch] <= MAX_NSAMP);
 
-	/* for readability, use a struct instead of passing a million parameters to HybridTransform() */
-	bc.nBlocksTotal = (hi->nonZeroBound[ch] + 17) / 18;
-	bc.nBlocksPrev = mi->numPrevIMDCT[ch];
-	bc.prevType = mi->prevType[ch];
-	bc.prevWinSwitch = mi->prevWinSwitch[ch];
-	bc.currWinSwitch = (si->sis[gr][ch].mixedBlock ? blockCutoff : 0);	/* where WINDOW switches (not nec. transform) */
-	bc.gbIn = hi->gb[ch];
+    /* for readability, use a struct instead of passing a million parameters to HybridTransform() */
+    bc.nBlocksTotal = (hi->nonZeroBound[ch] + 17) / 18;
+    bc.nBlocksPrev = mi->numPrevIMDCT[ch];
+    bc.prevType = mi->prevType[ch];
+    bc.prevWinSwitch = mi->prevWinSwitch[ch];
+    bc.currWinSwitch = (si->sis[gr][ch].mixedBlock ? blockCutoff : 0);  /* where WINDOW switches (not nec. transform) */
+    bc.gbIn = hi->gb[ch];
 
-	mi->numPrevIMDCT[ch] = HybridTransform(hi->huffDecBuf[ch], mi->overBuf[ch], mi->outBuf[ch], &si->sis[gr][ch], &bc);
-	mi->prevType[ch] = si->sis[gr][ch].blockType;
-	mi->prevWinSwitch[ch] = bc.currWinSwitch;		/* 0 means not a mixed block (either all short or all long) */
-	mi->gb[ch] = bc.gbOut;
+    mi->numPrevIMDCT[ch] = HybridTransform(hi->huffDecBuf[ch], mi->overBuf[ch], mi->outBuf[ch], &si->sis[gr][ch], &bc);
+    mi->prevType[ch] = si->sis[gr][ch].blockType;
+    mi->prevWinSwitch[ch] = bc.currWinSwitch;       /* 0 means not a mixed block (either all short or all long) */
+    mi->gb[ch] = bc.gbOut;
 
-	ASSERT(mi->numPrevIMDCT[ch] <= NBANDS);
+    ASSERT(mi->numPrevIMDCT[ch] <= NBANDS);
 
-	/* output has gained 2 int bits */
-	return 0;
+    /* output has gained 2 int bits */
+    return 0;
 }

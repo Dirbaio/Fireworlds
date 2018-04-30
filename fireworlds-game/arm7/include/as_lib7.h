@@ -38,7 +38,7 @@ extern "C" {
 typedef enum 
 {
     // internal commands
-	MP3CMD_ARM9ALLOCDONE = 256,
+    MP3CMD_ARM9ALLOCDONE = 256,
     MP3CMD_NONE = 0,
     MP3CMD_MIX = 1,
     MP3CMD_MIXING = 2,
@@ -79,7 +79,7 @@ typedef enum
     MP3ST_PAUSED = 2,
     MP3ST_OUT_OF_DATA = 4,
     MP3ST_DECODE_ERROR = 8,
-	MP3ST_INITFAILED = 16,	// <PALIB-CHANGE>
+    MP3ST_INITFAILED = 16,  // <PALIB-CHANGE>
     
 } MP3Status;
 
@@ -156,7 +156,7 @@ typedef struct
 /// MP3 player info
 typedef struct
 {
-	u8  *alloc_ram;
+    u8  *alloc_ram;
     s8  *mixbuffer;
     u32 buffersize;
     s32 rate;

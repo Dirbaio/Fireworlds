@@ -98,22 +98,22 @@ extern "C" {
 /// MP3 commands
 typedef enum 
 {
-	MP3CMD_ARM9ALLOCDONE = 256,
-	MP3CMD_NONE = 0,
-	MP3CMD_MIX = 1,
-	MP3CMD_MIXING = 2,
-	MP3CMD_WAITING = 4,
+    MP3CMD_ARM9ALLOCDONE = 256,
+    MP3CMD_NONE = 0,
+    MP3CMD_MIX = 1,
+    MP3CMD_MIXING = 2,
+    MP3CMD_WAITING = 4,
 
-	/// Initialize
-	MP3CMD_INIT = 8,
-	/// Stop
-	MP3CMD_STOP = 16,
-	/// Play
-	MP3CMD_PLAY = 32,
-	/// Pause
-	MP3CMD_PAUSE = 64,
-	/// Set rate
-	MP3CMD_SETRATE = 128
+    /// Initialize
+    MP3CMD_INIT = 8,
+    /// Stop
+    MP3CMD_STOP = 16,
+    /// Play
+    MP3CMD_PLAY = 32,
+    /// Pause
+    MP3CMD_PAUSE = 64,
+    /// Set rate
+    MP3CMD_SETRATE = 128
 
 } MP3Command;
 
@@ -126,15 +126,15 @@ typedef enum
 
     /// Stop
     SNDCMD_STOP = 2,
-	/// Play
+    /// Play
     SNDCMD_PLAY = 4,
-	/// Set volume
+    /// Set volume
     SNDCMD_SETVOLUME = 8,
-	/// Set pan
+    /// Set pan
     SNDCMD_SETPAN = 16,
-	/// Set rate
+    /// Set rate
     SNDCMD_SETRATE = 32,
-	/// Set master volume
+    /// Set master volume
     SNDCMD_SETMASTERVOLUME = 64
     
 } SoundCommand;
@@ -142,31 +142,31 @@ typedef enum
 /// MP3 states
 typedef enum
 {
-	/// Stopped
+    /// Stopped
     MP3ST_STOPPED = 0,
-	/// Playing
+    /// Playing
     MP3ST_PLAYING = 1,
-	/// Paused
+    /// Paused
     MP3ST_PAUSED = 2,
-	/// Out of data
+    /// Out of data
     MP3ST_OUT_OF_DATA = 4,
-	/// Decoding error
+    /// Decoding error
     MP3ST_DECODE_ERROR = 8,
-	/// Initialization failed
-	MP3ST_INITFAILED = 16,	// <PALIB-CHANGE>
+    /// Initialization failed
+    MP3ST_INITFAILED = 16,  // <PALIB-CHANGE>
     
 } MP3Status;
 
 /// ASlib modes
 typedef enum
 {
-	/// use mp3
+    /// use mp3
     AS_MODE_MP3 = 1,
-	/// use surround
+    /// use surround
     AS_MODE_SURROUND = 2,
-	/// use all DS channels
+    /// use all DS channels
     AS_MODE_16CH = 4,
-	/// use DS channels 1-8 only
+    /// use DS channels 1-8 only
     AS_MODE_8CH = 8
     
 } AS_MODE;
@@ -174,11 +174,11 @@ typedef enum
 /// Delay values
 typedef enum
 {
-	/// 0 ms delay
+    /// 0 ms delay
     AS_NO_DELAY = 0,
-	/// 16 ms delay
+    /// 16 ms delay
     AS_SURROUND = 1,
-	/// 66 ms delay
+    /// 66 ms delay
     AS_REVERB = 4,
     
 } AS_DELAY;
@@ -186,11 +186,11 @@ typedef enum
 /// Sound formats
 typedef enum
 {
-	/// 8-bit PCM
+    /// 8-bit PCM
     AS_PCM_8BIT = 0,
-	/// 16-bit PCM
+    /// 16-bit PCM
     AS_PCM_16BIT = 1,
-	/// 4-bit ADPCM
+    /// 4-bit ADPCM
     AS_ADPCM = 2
     
 } AS_SOUNDFORMAT;
@@ -198,23 +198,23 @@ typedef enum
 /// Sound info
 typedef struct
 {
-	/// Pointer to data
+    /// Pointer to data
     u8  *data;
-	/// Size in bytes
+    /// Size in bytes
     u32 size;
-	/// Format (see AS_SOUNDFORMAT)
+    /// Format (see AS_SOUNDFORMAT)
     u8  format;
-	/// Rate in Hz
+    /// Rate in Hz
     s32 rate;
-	/// Volume (0-127)
+    /// Volume (0-127)
     u8  volume;
-	/// Pan (0-64-127)
+    /// Pan (0-64-127)
     s8  pan;
-	/// Loop (0 or 1)
+    /// Loop (0 or 1)
     u8  loop;
-	/// Priority
+    /// Priority
     u8  priority;
-	/// Delay
+    /// Delay
     u8  delay;
     
 } SoundInfo;
@@ -249,7 +249,7 @@ typedef struct
 // MP3 player info
 typedef struct
 {
-	u8  *alloc_ram;
+    u8  *alloc_ram;
     s8  *mixbuffer;
     u32 buffersize;
     s32 rate;

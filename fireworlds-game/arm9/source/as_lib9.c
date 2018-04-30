@@ -91,8 +91,8 @@ void AS_Init(u8 mode)
         // allocate ram for the ARM7 mp3 decoder
         IPC_Sound->mp3.alloc_ram = (u8*)memalign(4, (int)IPC_Sound->mp3.alloc_ram);
         IPC_Sound->mp3.cmd = MP3CMD_ARM9ALLOCDONE;
-		
-		// initialize mp3 structure
+        
+        // initialize mp3 structure
         IPC_Sound->mp3.mixbuffer = (s8*)memalign(4, AS_AUDIOBUFFER_SIZE * 2);
         IPC_Sound->mp3.buffersize = AS_AUDIOBUFFER_SIZE / 2;
         IPC_Sound->mp3.channelL = 0;
@@ -230,28 +230,28 @@ void AS_SetSoundRate(u8 chan, u32 rate)
 }
 
 static inline void _AS_CopyToSoundIPC(SoundInfoAlign* out, SoundInfo* in){
-	out->data = in->data;
-	out->size = in->size;
-	out->rate = in->rate;
-	out->format = in->format;
-	out->volume = in->volume;
-	out->pan = in->pan;
-	out->loop = in->loop;
-	out->priority = in->priority;
-	out->delay = in->delay;
+    out->data = in->data;
+    out->size = in->size;
+    out->rate = in->rate;
+    out->format = in->format;
+    out->volume = in->volume;
+    out->pan = in->pan;
+    out->loop = in->loop;
+    out->priority = in->priority;
+    out->delay = in->delay;
 }
 
 // play a sound directly using the given channel
 void AS_SoundDirectPlay(u8 chan, SoundInfo sound)
 {
-	_AS_CopyToSoundIPC(&IPC_Sound->chan[chan].snd, &sound);
+    _AS_CopyToSoundIPC(&IPC_Sound->chan[chan].snd, &sound);
     //IPC_Sound->chan[chan].snd = sound;
     IPC_Sound->chan[chan].busy = true;
     IPC_Sound->chan[chan].cmd = SNDCMD_PLAY;
     IPC_Sound->chan[chan].volume = sound.volume;
     
     if(IPC_Sound->surround) {
-		_AS_CopyToSoundIPC(&IPC_Sound->chan[chan + IPC_Sound->num_chan].snd, &sound);
+        _AS_CopyToSoundIPC(&IPC_Sound->chan[chan + IPC_Sound->num_chan].snd, &sound);
         //IPC_Sound->chan[chan + IPC_Sound->num_chan].snd = sound;
         IPC_Sound->chan[chan + IPC_Sound->num_chan].busy = true;
         IPC_Sound->chan[chan + IPC_Sound->num_chan].cmd = SNDCMD_DELAY;

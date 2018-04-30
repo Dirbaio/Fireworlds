@@ -16,28 +16,28 @@ class Scene;
 
 class Particle
 {
-	public:
-	int x; //0x0
-	int y; //0x4
-	int vx; //0x8
-	int vy; //0xC
-	int vx2; //0x10
-	int vy2; //0x14
-	s8 g, b, r, a; //0x18
-	s8 sizePerLife; //0x1C
-	u8 effect;		//0x1D
-	u8 empty;		//0x1E
-	u8 nTexture;	//0x1F
-	u16 life;		//0x20
-	u16 empty2;		//0x22
-	//0x24
-	
-	Particle();
-	
-	void renderBlur();
-	void move(Scene* sc);
-	
-	bool out(int x, int y);
+    public:
+    int x; //0x0
+    int y; //0x4
+    int vx; //0x8
+    int vy; //0xC
+    int vx2; //0x10
+    int vy2; //0x14
+    s8 g, b, r, a; //0x18
+    s8 sizePerLife; //0x1C
+    u8 effect;      //0x1D
+    u8 empty;       //0x1E
+    u8 nTexture;    //0x1F
+    u16 life;       //0x20
+    u16 empty2;     //0x22
+    //0x24
+    
+    Particle();
+    
+    void renderBlur();
+    void move(Scene* sc);
+    
+    bool out(int x, int y);
 };
 
 #include "Scene.h"

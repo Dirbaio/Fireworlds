@@ -10,28 +10,28 @@
 #endif
 
 /*! \addtogroup General
-	@{
+    @{
 */
 
 /// PAlib transfer region type.
 typedef struct {
-	// Extra values that aren't read by libnds
-	/// TSC temperature diode 1
-	vuint16 tdiode1;
-	/// TSC temperature diode 2
-	vuint16 tdiode2;
-	/// TSC computed temperature
-	vuint32 temperature;
-	/// TSC battery
-	vuint16 battery;
-	/// Microphone volume
-	vuint8 micvol;
-	/// Extra field - used as padding for now.
-	vuint8 extra;
+    // Extra values that aren't read by libnds
+    /// TSC temperature diode 1
+    vuint16 tdiode1;
+    /// TSC temperature diode 2
+    vuint16 tdiode2;
+    /// TSC computed temperature
+    vuint32 temperature;
+    /// TSC battery
+    vuint16 battery;
+    /// Microphone volume
+    vuint8 micvol;
+    /// Extra field - used as padding for now.
+    vuint8 extra;
 
-	volatile int cpuUsage;
-	/// Legacy IPC field
-	LEGACY vuint32 mailData;
+    volatile int cpuUsage;
+    /// Legacy IPC field
+    LEGACY vuint32 mailData;
 } PA_TransferRegion;
 
 /// PAlib transfer region (used for the storage of data coming from the ARM7).

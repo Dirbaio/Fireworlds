@@ -8,14 +8,14 @@
 
 class IronActor : public Actor
 {
-	public: 
-	
-	int touchedTime;
-	IronActor(Scene* world);
-	
-	virtual void tick();
-	virtual void render();
-	virtual void collidedWithPlayer(PlayerActor* act);
+    public: 
+    
+    int touchedTime;
+    IronActor(Scene* world);
+    
+    virtual void tick();
+    virtual void render();
+    virtual void collidedWithPlayer(PlayerActor* act);
 };
 
 #endif

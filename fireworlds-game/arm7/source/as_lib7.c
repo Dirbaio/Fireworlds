@@ -280,15 +280,15 @@ void AS_SetTimer(int freq)
 // clear some buffers to avoid clicking on new mp3 start
 inline void AS_MP3ClearBuffers(){
     MP3DecInfo *mp3DecInfo = (MP3DecInfo*)hMP3Decoder;
-	memset(mp3DecInfo->FrameHeaderPS, 0, sizeof(FrameHeader));
-	memset(mp3DecInfo->SideInfoPS, 0, sizeof(SideInfo));
-	memset(mp3DecInfo->ScaleFactorInfoPS, 0, sizeof(ScaleFactorInfo));
-	memset(mp3DecInfo->HuffmanInfoPS, 0, sizeof(HuffmanInfo));
-	memset(mp3DecInfo->DequantInfoPS, 0, sizeof(DequantInfo));
-	memset(mp3DecInfo->IMDCTInfoPS, 0, sizeof(IMDCTInfo));
-	memset(mp3DecInfo->SubbandInfoPS, 0, sizeof(SubbandInfo));    
-	memset(mp3DecInfo->IMDCTInfoPS, 0, sizeof(IMDCTInfo));
-	memset(mp3DecInfo->SubbandInfoPS, 0, sizeof(SubbandInfo));
+    memset(mp3DecInfo->FrameHeaderPS, 0, sizeof(FrameHeader));
+    memset(mp3DecInfo->SideInfoPS, 0, sizeof(SideInfo));
+    memset(mp3DecInfo->ScaleFactorInfoPS, 0, sizeof(ScaleFactorInfo));
+    memset(mp3DecInfo->HuffmanInfoPS, 0, sizeof(HuffmanInfo));
+    memset(mp3DecInfo->DequantInfoPS, 0, sizeof(DequantInfo));
+    memset(mp3DecInfo->IMDCTInfoPS, 0, sizeof(IMDCTInfo));
+    memset(mp3DecInfo->SubbandInfoPS, 0, sizeof(SubbandInfo));    
+    memset(mp3DecInfo->IMDCTInfoPS, 0, sizeof(IMDCTInfo));
+    memset(mp3DecInfo->SubbandInfoPS, 0, sizeof(SubbandInfo));
 }
 
 // fill the given stream buffer with numsamples samples. (based on ThomasS code)

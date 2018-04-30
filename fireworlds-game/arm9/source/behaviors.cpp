@@ -2,5 +2,5 @@
 
 bool isBehaviorSolid(int beh)
 {
-	return beh < BEH_LAVA || beh > BEH_WATERDOWN;
+    return beh < BEH_LAVA || beh > BEH_WATERDOWN;
 }

@@ -15,12 +15,12 @@ class SeaActor;
 
 class CreditsScene : public Scene
 {
-	public:
-	bool playVideo;
-	CreditsScene(bool playVideo);
-	virtual ~CreditsScene();
-	virtual void tick();
-	virtual void render();
+    public:
+    bool playVideo;
+    CreditsScene(bool playVideo);
+    virtual ~CreditsScene();
+    virtual void tick();
+    virtual void render();
 };
 
 #endif

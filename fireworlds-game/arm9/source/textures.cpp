@@ -9,58 +9,58 @@ int textureIDS[20];
 const u32 uv[] =
 {
 
-	TEXTURE_PACK(inttot16(64), 0),
-	TEXTURE_PACK(inttot16(64),inttot16(64)),
-	TEXTURE_PACK(0, inttot16(64)),
-	TEXTURE_PACK(0,0)
+    TEXTURE_PACK(inttot16(64), 0),
+    TEXTURE_PACK(inttot16(64),inttot16(64)),
+    TEXTURE_PACK(0, inttot16(64)),
+    TEXTURE_PACK(0,0)
 };
 
 
 void renderChar(char c, f32 x, f32 y, f32 sz)
 {
-	sz += sz/2;
+    sz += sz/2;
 
     int texIndex = 64*1024/8 + c * 8;
-	GFX_TEX_FORMAT = (TEXTURE_SIZE_8 << 20) | (TEXTURE_SIZE_8 << 23) | (GL_RGB8_A5 << 26) | ( texIndex & 0xFFFF );
+    GFX_TEX_FORMAT = (TEXTURE_SIZE_8 << 20) | (TEXTURE_SIZE_8 << 23) | (GL_RGB8_A5 << 26) | ( texIndex & 0xFFFF );
 
-	glBegin(GL_QUAD);
+    glBegin(GL_QUAD);
 
-	GFX_TEX_COORD = TEXTURE_PACK(inttot16(0), inttot16(8)-1);
-	glVertex3f32(x-sz, y-sz, 0);
-	GFX_TEX_COORD = TEXTURE_PACK(inttot16(8)-1,inttot16(8)-1);
-	glVertex3f32(x+sz, y-sz, 0);
-	GFX_TEX_COORD = TEXTURE_PACK(inttot16(8)-1,inttot16(0));
-	glVertex3f32(x+sz, y+sz, 0);
-	GFX_TEX_COORD = TEXTURE_PACK(inttot16(0),inttot16(0));
-	glVertex3f32(x-sz, y+sz, 0);
+    GFX_TEX_COORD = TEXTURE_PACK(inttot16(0), inttot16(8)-1);
+    glVertex3f32(x-sz, y-sz, 0);
+    GFX_TEX_COORD = TEXTURE_PACK(inttot16(8)-1,inttot16(8)-1);
+    glVertex3f32(x+sz, y-sz, 0);
+    GFX_TEX_COORD = TEXTURE_PACK(inttot16(8)-1,inttot16(0));
+    glVertex3f32(x+sz, y+sz, 0);
+    GFX_TEX_COORD = TEXTURE_PACK(inttot16(0),inttot16(0));
+    glVertex3f32(x-sz, y+sz, 0);
 
-	glEnd();
+    glEnd();
 }
 
 void genTextureFromImg(int n, int offs)
 {
-	u8* tx = (u8*) texsBitmap;
-	tx += offs*64*64;
+    u8* tx = (u8*) texsBitmap;
+    tx += offs*64*64;
 
-	u8 texdata[64*64];
+    u8 texdata[64*64];
 
-	for(int x = 0; x < 64; x++)
-		for(int y = 0; y < 64; y++)
-		{
-			int c = texsPal[tx[x+y*64]];
-			int a = c & 0x1F;
+    for(int x = 0; x < 64; x++)
+        for(int y = 0; y < 64; y++)
+        {
+            int c = texsPal[tx[x+y*64]];
+            int a = c & 0x1F;
             a = 0x1F;
             texdata[x+y*64] = (u8) (a)<< 3 | 1;
-			texdata[x+y*64] = 31 << 3;
-		}
+            texdata[x+y*64] = 31 << 3;
+        }
 
-	glBindTexture(0, textureIDS[n]);
-	glTexImage2D(0, 0, GL_RGB8_A5, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, 0, texdata);
+    glBindTexture(0, textureIDS[n]);
+    glTexImage2D(0, 0, GL_RGB8_A5, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, 0, texdata);
 
-	u16 paldata[16];
-	for(int i = 0; i < 16; i++)
-		paldata[i] = 0xFFFF;
-	glColorTableEXT( 0, 0, 16, 0, 0, paldata );
+    u16 paldata[16];
+    for(int i = 0; i < 16; i++)
+        paldata[i] = 0xFFFF;
+    glColorTableEXT( 0, 0, 16, 0, 0, paldata );
 }
 
 void genTextures()
@@ -96,83 +96,83 @@ void genTextures()
 
 void genTextures2()
 {
-//	int pal_addr = gluTexLoadPal( &paldata[0], 8, GL_RGB8_A5 );
+//  int pal_addr = gluTexLoadPal( &paldata[0], 8, GL_RGB8_A5 );
 
-	u16 paldata[16];
-	for(int i = 0; i < 16; i++)
-		paldata[i] = 0xFFFF;
+    u16 paldata[16];
+    for(int i = 0; i < 16; i++)
+        paldata[i] = 0xFFFF;
 
-	u8 texdata[64*64];
+    u8 texdata[64*64];
 
-	for(int x = 0; x < 64; x++)
-		for(int y = 0; y < 64; y++)
-		{
-			texdata[x+y*64] = (u8)  1;
-		}
+    for(int x = 0; x < 64; x++)
+        for(int y = 0; y < 64; y++)
+        {
+            texdata[x+y*64] = (u8)  1;
+        }
 
-	glBindTexture(0, textureIDS[0]);
-	glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, 0, texdata);
-	glColorTableEXT( 0, 0, 16, 0, 0, paldata );
-
-
-	genTextureFromImg(1, 0);
-	genTextureFromImg(2, 1);
-	genTextureFromImg(3, 2);
+    glBindTexture(0, textureIDS[0]);
+    glTexImage2D(0, 0, GL_RGB256, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, 0, texdata);
+    glColorTableEXT( 0, 0, 16, 0, 0, paldata );
 
 
-	u8* texdata2 = new u8[256*64];
-	u8* text = (u8*) introtextTiles;
-	for(int x = 0; x < 256; x++)
-		for(int y = 0; y < 64; y++)
-		{
-			u8 val = 0;
-			if(text[x+y*256] == 0x01)
-				val = 31<<3;
-			texdata2[x+y*256] = val;
-		}
+    genTextureFromImg(1, 0);
+    genTextureFromImg(2, 1);
+    genTextureFromImg(3, 2);
 
 
-	glBindTexture(0, textureIDS[4]);
-	glTexImage2D(0, 0, GL_RGB8_A5, TEXTURE_SIZE_256, TEXTURE_SIZE_64, 0, 0, texdata2);
-	glColorTableEXT( 0, 0, 16, 0, 0, paldata );
+    u8* texdata2 = new u8[256*64];
+    u8* text = (u8*) introtextTiles;
+    for(int x = 0; x < 256; x++)
+        for(int y = 0; y < 64; y++)
+        {
+            u8 val = 0;
+            if(text[x+y*256] == 0x01)
+                val = 31<<3;
+            texdata2[x+y*256] = val;
+        }
 
-	genTextureFromImg(6, 3);
-	genTextureFromImg(8, 4);
+
+    glBindTexture(0, textureIDS[4]);
+    glTexImage2D(0, 0, GL_RGB8_A5, TEXTURE_SIZE_256, TEXTURE_SIZE_64, 0, 0, texdata2);
+    glColorTableEXT( 0, 0, 16, 0, 0, paldata );
+
+    genTextureFromImg(6, 3);
+    genTextureFromImg(8, 4);
 
 
-	for(int x = 0; x < 64; x++)
-		for(int y = 0; y < 64; y++)
-			texdata[x+y*64] = (u8) (31)<< 3 | 1;
+    for(int x = 0; x < 64; x++)
+        for(int y = 0; y < 64; y++)
+            texdata[x+y*64] = (u8) (31)<< 3 | 1;
 
-	glBindTexture(0, textureIDS[7]);
-	glTexImage2D(0, 0, GL_RGB8_A5, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, 0, texdata);
-	glColorTableEXT( 0, 0, 16, 0, 0, paldata );
+    glBindTexture(0, textureIDS[7]);
+    glTexImage2D(0, 0, GL_RGB8_A5, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, 0, texdata);
+    glColorTableEXT( 0, 0, 16, 0, 0, paldata );
 
-	for(int x = 0; x < 64; x++)
-		for(int y = 0; y < 64; y++)
-		{
-			int dist = (x-32)*(x-32)+(y-32)*(y-32);
-			dist = sqrt32(dist);
-//			dist /= 32;
-			if(dist>31) dist = 31;
-			if(dist<0) dist = 0;
-			if(dist !=31)
-				texdata[x+y*64] = (u8) 31<< 3 | 1;
-			else
-				texdata[x+y*64] = (u8) 0;
+    for(int x = 0; x < 64; x++)
+        for(int y = 0; y < 64; y++)
+        {
+            int dist = (x-32)*(x-32)+(y-32)*(y-32);
+            dist = sqrt32(dist);
+//          dist /= 32;
+            if(dist>31) dist = 31;
+            if(dist<0) dist = 0;
+            if(dist !=31)
+                texdata[x+y*64] = (u8) 31<< 3 | 1;
+            else
+                texdata[x+y*64] = (u8) 0;
 
-		}
+        }
 
-	glBindTexture(0, textureIDS[9]);
-	glTexImage2D(0, 0, GL_RGB8_A5, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, TEXGEN_TEXCOORD, texdata);
-	glColorTableEXT( 0, 0, 16, 0, 0, paldata );
+    glBindTexture(0, textureIDS[9]);
+    glTexImage2D(0, 0, GL_RGB8_A5, TEXTURE_SIZE_64, TEXTURE_SIZE_64, 0, TEXGEN_TEXCOORD, texdata);
+    glColorTableEXT( 0, 0, 16, 0, 0, paldata );
 
-	genTextureFromImg(10, 5);
-	genTextureFromImg(11, 6);
-	genTextureFromImg(12, 7);
-	genTextureFromImg(13, 8);
+    genTextureFromImg(10, 5);
+    genTextureFromImg(11, 6);
+    genTextureFromImg(12, 7);
+    genTextureFromImg(13, 8);
 
-	delete[] texdata2;
+    delete[] texdata2;
 }
 
 void copy16(void* dest, void* src, int len) {
@@ -184,7 +184,7 @@ void copy16(void* dest, void* src, int len) {
 
 void setNoTexture()
 {
-	setTexture(0);
+    setTexture(0);
 }
 
 void loadTextures()
@@ -195,7 +195,7 @@ void loadTextures()
 
     for(int i = 0; i < 14; i++) {
         u8* tx = (u8*) texsBitmap;
-    	tx += i*64*64;
+        tx += i*64*64;
 
         for(int x = 0; x < 64; x++)
             for(int y = 0; y < 64; y++)
@@ -204,13 +204,13 @@ void loadTextures()
         copy16(VRAM_A + i*64*64/2, texdata, sizeof(texdata));
     }
 
-	u8* texdata2 = new u8[introtextTilesLen];
-	u8* text = (u8*) introtextTiles;
-	for(int x = 0; x < introtextTilesLen; x++)
+    u8* texdata2 = new u8[introtextTilesLen];
+    u8* text = (u8*) introtextTiles;
+    for(int x = 0; x < introtextTilesLen; x++)
         texdata2[x] = text[x] == 0x01 ? (31 << 3) : 0;
     copy16(VRAM_A + 64*1024/2, texdata2, introtextTilesLen);
 
-	vramSetBankA(VRAM_A_TEXTURE);
+    vramSetBankA(VRAM_A_TEXTURE);
 
     u16 paldata[16];
     for(int i = 0; i < 16; i++)
@@ -218,13 +218,13 @@ void loadTextures()
 
     vramSetBankF(VRAM_F_LCD);
     copy16(VRAM_F, paldata, sizeof(paldata));
-	vramSetBankF(VRAM_F_TEX_PALETTE_SLOT0);
+    vramSetBankF(VRAM_F_TEX_PALETTE_SLOT0);
 }
 
 void setTexture(int nTexture)
 {
     int texIndex = nTexture * 64 * 64 / 8;
-	GFX_TEX_FORMAT = (TEXTURE_SIZE_64 << 20) | (TEXTURE_SIZE_64 << 23) | (GL_RGB8_A5 << 26) | ( texIndex & 0xFFFF );
+    GFX_TEX_FORMAT = (TEXTURE_SIZE_64 << 20) | (TEXTURE_SIZE_64 << 23) | (GL_RGB8_A5 << 26) | ( texIndex & 0xFFFF );
 
     int palIndex = 0;
     GFX_PAL_FORMAT = palIndex;

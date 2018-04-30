@@ -46,7 +46,7 @@
  **************************************************************************************/
 
 #include <string.h>
-#include "stdlib.h"		/* for malloc, free */ 
+#include "stdlib.h"     /* for malloc, free */ 
 #include "coder.h"
 
 /**************************************************************************************
@@ -68,13 +68,13 @@
 /*
 static void ClearBuffer(void *buf, int nBytes)
 {
-	int i;
-	unsigned char *cbuf = (unsigned char *)buf;
+    int i;
+    unsigned char *cbuf = (unsigned char *)buf;
 
-	for (i = 0; i < nBytes; i++)
-		cbuf[i] = 0;
+    for (i = 0; i < nBytes; i++)
+        cbuf[i] = 0;
 
-	return;
+    return;
 }*/
 
 /**************************************************************************************
@@ -97,82 +97,82 @@ static void ClearBuffer(void *buf, int nBytes)
 // static buffers for most important data
 static unsigned char xmp3_mp3Dec_buff[sizeof(MP3DecInfo)];
 static unsigned char xmp3_huffman_buff[sizeof(HuffmanInfo)];
-//static unsigned char xmp3_subband_buff[sizeof(SubbandInfo)];	<PALIB-CHANGE> This doesn't fit into the arm7_mp3_dsWifi core
+//static unsigned char xmp3_subband_buff[sizeof(SubbandInfo)];  <PALIB-CHANGE> This doesn't fit into the arm7_mp3_dsWifi core
 
 MP3DecInfo *AllocateBuffers(void *ram_address)
 {
-	MP3DecInfo *mp3DecInfo;
-	FrameHeader *fh;
-	SideInfo *si;
-	ScaleFactorInfo *sfi;
-	HuffmanInfo *hi;
-	DequantInfo *di;
-	IMDCTInfo *mi;
-	SubbandInfo *sbi;
+    MP3DecInfo *mp3DecInfo;
+    FrameHeader *fh;
+    SideInfo *si;
+    ScaleFactorInfo *sfi;
+    HuffmanInfo *hi;
+    DequantInfo *di;
+    IMDCTInfo *mi;
+    SubbandInfo *sbi;
     int offset = 0;
 
-	mp3DecInfo = (MP3DecInfo *)&xmp3_mp3Dec_buff;//ram_address; offset += sizeof(MP3DecInfo);    
-	if (!mp3DecInfo)
-		return 0;
-	ClearBuffer(mp3DecInfo, sizeof(MP3DecInfo));
-	
-	fh =  (FrameHeader *)     (ram_address+offset); offset += sizeof(FrameHeader);
-	si =  (SideInfo *)        (ram_address+offset); offset += sizeof(SideInfo);
-	sfi = (ScaleFactorInfo *) (ram_address+offset); offset += sizeof(ScaleFactorInfo);
-	hi =  (HuffmanInfo *)     &xmp3_huffman_buff;//(ram_address+offset); offset += sizeof(HuffmanInfo);
-	di =  (DequantInfo *)     (ram_address+offset); offset += sizeof(DequantInfo);
-	mi =  (IMDCTInfo *)       (ram_address+offset); offset += sizeof(IMDCTInfo);
-	sbi = (SubbandInfo *)     (ram_address+offset); offset += sizeof(SubbandInfo);
+    mp3DecInfo = (MP3DecInfo *)&xmp3_mp3Dec_buff;//ram_address; offset += sizeof(MP3DecInfo);    
+    if (!mp3DecInfo)
+        return 0;
+    ClearBuffer(mp3DecInfo, sizeof(MP3DecInfo));
+    
+    fh =  (FrameHeader *)     (ram_address+offset); offset += sizeof(FrameHeader);
+    si =  (SideInfo *)        (ram_address+offset); offset += sizeof(SideInfo);
+    sfi = (ScaleFactorInfo *) (ram_address+offset); offset += sizeof(ScaleFactorInfo);
+    hi =  (HuffmanInfo *)     &xmp3_huffman_buff;//(ram_address+offset); offset += sizeof(HuffmanInfo);
+    di =  (DequantInfo *)     (ram_address+offset); offset += sizeof(DequantInfo);
+    mi =  (IMDCTInfo *)       (ram_address+offset); offset += sizeof(IMDCTInfo);
+    sbi = (SubbandInfo *)     (ram_address+offset); offset += sizeof(SubbandInfo);
 
-	mp3DecInfo->FrameHeaderPS =     (void *)fh;
-	mp3DecInfo->SideInfoPS =        (void *)si;
-	mp3DecInfo->ScaleFactorInfoPS = (void *)sfi;
-	mp3DecInfo->HuffmanInfoPS =     (void *)hi;
-	mp3DecInfo->DequantInfoPS =     (void *)di;
-	mp3DecInfo->IMDCTInfoPS =       (void *)mi;
-	mp3DecInfo->SubbandInfoPS =     (void *)sbi;
+    mp3DecInfo->FrameHeaderPS =     (void *)fh;
+    mp3DecInfo->SideInfoPS =        (void *)si;
+    mp3DecInfo->ScaleFactorInfoPS = (void *)sfi;
+    mp3DecInfo->HuffmanInfoPS =     (void *)hi;
+    mp3DecInfo->DequantInfoPS =     (void *)di;
+    mp3DecInfo->IMDCTInfoPS =       (void *)mi;
+    mp3DecInfo->SubbandInfoPS =     (void *)sbi;
 
     /*
-	mp3DecInfo = (MP3DecInfo *)malloc(sizeof(MP3DecInfo));
-	if (!mp3DecInfo)
-		return 0;
-	ClearBuffer(mp3DecInfo, sizeof(MP3DecInfo));
-	
-	fh =  (FrameHeader *)     malloc(sizeof(FrameHeader));
-	si =  (SideInfo *)        malloc(sizeof(SideInfo));
-	sfi = (ScaleFactorInfo *) malloc(sizeof(ScaleFactorInfo));
-	hi =  (HuffmanInfo *)     malloc(sizeof(HuffmanInfo));
-	di =  (DequantInfo *)     malloc(sizeof(DequantInfo));
-	mi =  (IMDCTInfo *)       malloc(sizeof(IMDCTInfo));
-	sbi = (SubbandInfo *)     malloc(sizeof(SubbandInfo));
+    mp3DecInfo = (MP3DecInfo *)malloc(sizeof(MP3DecInfo));
+    if (!mp3DecInfo)
+        return 0;
+    ClearBuffer(mp3DecInfo, sizeof(MP3DecInfo));
+    
+    fh =  (FrameHeader *)     malloc(sizeof(FrameHeader));
+    si =  (SideInfo *)        malloc(sizeof(SideInfo));
+    sfi = (ScaleFactorInfo *) malloc(sizeof(ScaleFactorInfo));
+    hi =  (HuffmanInfo *)     malloc(sizeof(HuffmanInfo));
+    di =  (DequantInfo *)     malloc(sizeof(DequantInfo));
+    mi =  (IMDCTInfo *)       malloc(sizeof(IMDCTInfo));
+    sbi = (SubbandInfo *)     malloc(sizeof(SubbandInfo));
 
-	mp3DecInfo->FrameHeaderPS =     (void *)fh;
-	mp3DecInfo->SideInfoPS =        (void *)si;
-	mp3DecInfo->ScaleFactorInfoPS = (void *)sfi;
-	mp3DecInfo->HuffmanInfoPS =     (void *)hi;
-	mp3DecInfo->DequantInfoPS =     (void *)di;
-	mp3DecInfo->IMDCTInfoPS =       (void *)mi;
-	mp3DecInfo->SubbandInfoPS =     (void *)sbi;
+    mp3DecInfo->FrameHeaderPS =     (void *)fh;
+    mp3DecInfo->SideInfoPS =        (void *)si;
+    mp3DecInfo->ScaleFactorInfoPS = (void *)sfi;
+    mp3DecInfo->HuffmanInfoPS =     (void *)hi;
+    mp3DecInfo->DequantInfoPS =     (void *)di;
+    mp3DecInfo->IMDCTInfoPS =       (void *)mi;
+    mp3DecInfo->SubbandInfoPS =     (void *)sbi;
 
-	if (!fh || !si || !sfi || !hi || !di || !mi || !sbi) {
-		FreeBuffers(mp3DecInfo);	// safe to call - only frees memory that was successfully allocated
-		return 0;
-	}
+    if (!fh || !si || !sfi || !hi || !di || !mi || !sbi) {
+        FreeBuffers(mp3DecInfo);    // safe to call - only frees memory that was successfully allocated
+        return 0;
+    }
 */
 
-	/* important to do this - DSP primitives assume a bunch of state variables are 0 on first use */
-	ClearBuffer(fh,  sizeof(FrameHeader));
-	ClearBuffer(si,  sizeof(SideInfo));
-	ClearBuffer(sfi, sizeof(ScaleFactorInfo));
-	ClearBuffer(hi,  sizeof(HuffmanInfo));
-	ClearBuffer(di,  sizeof(DequantInfo));
-	ClearBuffer(mi,  sizeof(IMDCTInfo));
-	ClearBuffer(sbi, sizeof(SubbandInfo));
+    /* important to do this - DSP primitives assume a bunch of state variables are 0 on first use */
+    ClearBuffer(fh,  sizeof(FrameHeader));
+    ClearBuffer(si,  sizeof(SideInfo));
+    ClearBuffer(sfi, sizeof(ScaleFactorInfo));
+    ClearBuffer(hi,  sizeof(HuffmanInfo));
+    ClearBuffer(di,  sizeof(DequantInfo));
+    ClearBuffer(mi,  sizeof(IMDCTInfo));
+    ClearBuffer(sbi, sizeof(SubbandInfo));
 
-	return mp3DecInfo;
+    return mp3DecInfo;
 }
 
-#define SAFE_FREE(x)	{if (x)	free(x);	(x) = 0;}	/* helper macro */
+#define SAFE_FREE(x)    {if (x) free(x);    (x) = 0;}   /* helper macro */
 
 /**************************************************************************************
  * Function:    FreeBuffers
@@ -189,16 +189,16 @@ MP3DecInfo *AllocateBuffers(void *ram_address)
  **************************************************************************************/
 void FreeBuffers(MP3DecInfo *mp3DecInfo)
 {
-	if (!mp3DecInfo)
-		return;
+    if (!mp3DecInfo)
+        return;
 
-	SAFE_FREE(mp3DecInfo->FrameHeaderPS);
-	SAFE_FREE(mp3DecInfo->SideInfoPS);
-	SAFE_FREE(mp3DecInfo->ScaleFactorInfoPS);
-	SAFE_FREE(mp3DecInfo->HuffmanInfoPS);
-	SAFE_FREE(mp3DecInfo->DequantInfoPS);
-	SAFE_FREE(mp3DecInfo->IMDCTInfoPS);
-	SAFE_FREE(mp3DecInfo->SubbandInfoPS);
+    SAFE_FREE(mp3DecInfo->FrameHeaderPS);
+    SAFE_FREE(mp3DecInfo->SideInfoPS);
+    SAFE_FREE(mp3DecInfo->ScaleFactorInfoPS);
+    SAFE_FREE(mp3DecInfo->HuffmanInfoPS);
+    SAFE_FREE(mp3DecInfo->DequantInfoPS);
+    SAFE_FREE(mp3DecInfo->IMDCTInfoPS);
+    SAFE_FREE(mp3DecInfo->SubbandInfoPS);
 
-	SAFE_FREE(mp3DecInfo);
+    SAFE_FREE(mp3DecInfo);
 }

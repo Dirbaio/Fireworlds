@@ -8,23 +8,23 @@
 
 class FireActor : public Actor
 {
-	public: 
-	int color;
+    public: 
+    int color;
 
-	s16 r, g, b, a;
-	int c;
-	u8 t;
-	int colorShift;
-	bool activeFire;
-	bool activePlayer;
-	f32 firesize;
-	
-	FireActor(Scene* world);
-	
-	virtual void tick();
-	virtual void render();
-	void activated();
-	
+    s16 r, g, b, a;
+    int c;
+    u8 t;
+    int colorShift;
+    bool activeFire;
+    bool activePlayer;
+    f32 firesize;
+    
+    FireActor(Scene* world);
+    
+    virtual void tick();
+    virtual void render();
+    void activated();
+    
 };
 
 #endif

@@ -15,25 +15,25 @@ class SeaActor;
 
 class LevelSelectScene : public Scene
 {
-	public:
-	
-	f32 touchDownY;
-	f32 yCamAcc;
-	IntrotextActor* levels [40];
-	int levCount;
-	
-	int goTime;
-	int levSelected;
-	bool goBack;
-	bool jumpToSelected;
-	
-	LevelSelectScene();
-	virtual ~LevelSelectScene();
-	virtual void tick();
-	virtual void render();
-	virtual void renderPerspective();
-	void selectLevel(int i);
-	
+    public:
+    
+    f32 touchDownY;
+    f32 yCamAcc;
+    IntrotextActor* levels [40];
+    int levCount;
+    
+    int goTime;
+    int levSelected;
+    bool goBack;
+    bool jumpToSelected;
+    
+    LevelSelectScene();
+    virtual ~LevelSelectScene();
+    virtual void tick();
+    virtual void render();
+    virtual void renderPerspective();
+    void selectLevel(int i);
+    
 };
 
 #endif

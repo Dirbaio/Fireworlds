@@ -8,14 +8,14 @@
 
 class IceActor : public Actor
 {
-	public: 
-	
-	int touchedTime;
-	IceActor(Scene* world);
-	
-	virtual void tick();
-	virtual void render();
-	virtual void collidedWithPlayer(PlayerActor* act);
+    public: 
+    
+    int touchedTime;
+    IceActor(Scene* world);
+    
+    virtual void tick();
+    virtual void render();
+    virtual void collidedWithPlayer(PlayerActor* act);
 };
 
 #endif

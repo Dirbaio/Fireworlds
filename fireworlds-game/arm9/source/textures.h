@@ -7,8 +7,8 @@
 
 struct TextureEntry
 {
-	int format, pal_addr;
-	u32 size;
+    int format, pal_addr;
+    u32 size;
 };
 
 #define TEX_BALL 1

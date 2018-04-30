@@ -8,17 +8,17 @@
 
 class EndingActor : public Actor
 {
-	public: 
-	u8 t;
-	int winTime;
-	int r, g, b;
-	LevelScene* world;
-	
-	EndingActor(LevelScene* world);
-	
-	virtual void tick();
-	virtual void render();
-	virtual void collidedWithPlayer(PlayerActor* act);
+    public: 
+    u8 t;
+    int winTime;
+    int r, g, b;
+    LevelScene* world;
+    
+    EndingActor(LevelScene* world);
+    
+    virtual void tick();
+    virtual void render();
+    virtual void collidedWithPlayer(PlayerActor* act);
 };
 
 #endif

@@ -14,88 +14,88 @@ class Actor;
 
 struct BlockEntry
 {
-	u32 offs;
-	u32 count;
+    u32 offs;
+    u32 count;
 };
 
 struct LevelObj
 {
-	int x[4];
-	int y[4];
-	u16 type;
-	u8 state;
-	u8 reserved;
-	int neighbors[4];
+    int x[4];
+    int y[4];
+    u16 type;
+    u8 state;
+    u8 reserved;
+    int neighbors[4];
 };
 
 struct LevelAct
 {
-	int x;
-	int y;
-	int type;
-	int data;
+    int x;
+    int y;
+    int type;
+    int data;
 };
 
 struct ObjectsBlock
 {
-	u32 objCount; //The java editor uses it.
-	BlockEntry blocks[32][32];
-	LevelObj objs[0];
+    u32 objCount; //The java editor uses it.
+    BlockEntry blocks[32][32];
+    LevelObj objs[0];
 };
 
 struct ActorsBlock
 {
-	u32 actCount; //The java editor uses it.
-	LevelAct acts[0];
+    u32 actCount; //The java editor uses it.
+    LevelAct acts[0];
 };
 
 struct LevelStruct
 {
-	u32 magic;
-	u32 objectsOffs;
-	u32 objectsLen;
-	u32 actorsOffs;
-	u32 actorsLen;
-	u32 textOffs;
-	u32 textLen;
+    u32 magic;
+    u32 objectsOffs;
+    u32 objectsLen;
+    u32 actorsOffs;
+    u32 actorsLen;
+    u32 textOffs;
+    u32 textLen;
 }; 
 
 class Scene;
 
 class Level
 {
-	public:
-	
-	u8* levelFile;
-	
-	LevelStruct* main;
-	ObjectsBlock* objs;
-	ActorsBlock* acts;
-	
-	Scene* sc;
-	const char* levelText;
-	
-	int sparkleTime;
-	
-	Level(const char* file, Scene* sc);
-	~Level();
-	
-	void render(f32 x, f32 y); //2 f32's
-	void renderBlock(int bx, int by, f32 x, f32 y, bool wall);
+    public:
+    
+    u8* levelFile;
+    
+    LevelStruct* main;
+    ObjectsBlock* objs;
+    ActorsBlock* acts;
+    
+    Scene* sc;
+    const char* levelText;
+    
+    int sparkleTime;
+    
+    Level(const char* file, Scene* sc);
+    ~Level();
+    
+    void render(f32 x, f32 y); //2 f32's
+    void renderBlock(int bx, int by, f32 x, f32 y, bool wall);
 
-	void tick(f32 x, f32 y); //2 f32's
-	void tickBlock(int bx, int by, f32 x, f32 y);
+    void tick(f32 x, f32 y); //2 f32's
+    void tickBlock(int bx, int by, f32 x, f32 y);
 
-	LevelObj* collisionBlock(int x, int y, int ox,int oy, int& vxr, int& vyr);
-//	bool collision(f32 x, f32 y);
+    LevelObj* collisionBlock(int x, int y, int ox,int oy, int& vxr, int& vyr);
+//  bool collision(f32 x, f32 y);
 
-	void fixCoordsWithObj(LevelObj& obj, Actor* act);
-	void fixCoords(Actor* act);
-	void addSparkles(LevelObj& obj);
+    void fixCoordsWithObj(LevelObj& obj, Actor* act);
+    void fixCoords(Actor* act);
+    void addSparkles(LevelObj& obj);
 
-	void liquidCollisions(Actor* act);
-	
-	bool isBehaviorSolid(int b);
+    void liquidCollisions(Actor* act);
+    
+    bool isBehaviorSolid(int b);
 };
 
 void renderObject(LevelObj& obj, f32 xx, f32 yy, Scene* sc);

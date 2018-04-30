@@ -8,15 +8,15 @@
 //---------------------------------------------------------------------------------
 void VblankHandler(void) {
 //---------------------------------------------------------------------------------
-	Wifi_Update();
-	AS_SoundVBL();
+    Wifi_Update();
+    AS_SoundVBL();
 }
 
 
 //---------------------------------------------------------------------------------
 void VcountHandler() {
 //---------------------------------------------------------------------------------
-	inputGetAndSend();
+    inputGetAndSend();
 }
 
 volatile bool exitflag = false;
@@ -24,7 +24,7 @@ volatile bool exitflag = false;
 //---------------------------------------------------------------------------------
 void powerButtonHandler() {
 //---------------------------------------------------------------------------------
-	exitflag = true;
+    exitflag = true;
 }
 
 #ifdef __cplusplus
@@ -42,44 +42,44 @@ void swiSoftReset_0(void);
 //---------------------------------------------------------------------------------
 int main() {
 //---------------------------------------------------------------------------------
-//	systemMsgHandler(0, 0);
-	readUserSettings();
+//  systemMsgHandler(0, 0);
+    readUserSettings();
 
-	irqInit();
-	fifoInit();
+    irqInit();
+    fifoInit();
     touchInit();
-	enableSound();
-	AS_Init();
+    enableSound();
+    AS_Init();
 
-//	mmInstall(FIFO_MAXMOD);
-	// Start the RTC tracking IRQ
-	initClockIRQ();
+//  mmInstall(FIFO_MAXMOD);
+    // Start the RTC tracking IRQ
+    initClockIRQ();
 
-	SetYtrigger(80);
+    SetYtrigger(80);
 
-	installWifiFIFO();
-	installSoundFIFO();
+    installWifiFIFO();
+    installSoundFIFO();
 
-	installSystemFIFO();
+    installSystemFIFO();
 
-	irqSet(IRQ_VCOUNT, VcountHandler);
-	irqSet(IRQ_VBLANK, VblankHandler);
+    irqSet(IRQ_VCOUNT, VcountHandler);
+    irqSet(IRQ_VBLANK, VblankHandler);
 
-	irqEnable( IRQ_VBLANK | IRQ_VCOUNT | IRQ_NETWORK);
+    irqEnable( IRQ_VBLANK | IRQ_VCOUNT | IRQ_NETWORK);
 
-	// Keep the ARM7 mostly idle
-	while (!exitflag) {
+    // Keep the ARM7 mostly idle
+    while (!exitflag) {
 
-		if ( 0 == (REG_KEYINPUT & (KEY_SELECT | KEY_START | KEY_L | KEY_R))) {
-			exitflag = true;
-		}
-		timerStart(2, ClockDivider_1024, 0, 0);
-		AS_MP3Engine();
-		int shit = BUS_CLOCK / 100 / 60 / 1024;
-		int dd = timerElapsed(2)/shit;
-		PA_Transfer->cpuUsage = dd;
-		timerStop(2);
-		swiWaitForVBlank();
-	}
-	return 0;
+        if ( 0 == (REG_KEYINPUT & (KEY_SELECT | KEY_START | KEY_L | KEY_R))) {
+            exitflag = true;
+        }
+        timerStart(2, ClockDivider_1024, 0, 0);
+        AS_MP3Engine();
+        int shit = BUS_CLOCK / 100 / 60 / 1024;
+        int dd = timerElapsed(2)/shit;
+        PA_Transfer->cpuUsage = dd;
+        timerStop(2);
+        swiWaitForVBlank();
+    }
+    return 0;
 }

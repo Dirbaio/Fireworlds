@@ -10,19 +10,19 @@ class IntrotextActor;
 
 class IntrotextActor : public Actor
 {
-	public: 
-	
-	const char* text;
-	int textLen;
-	bool touched;
-	int offs;
-	int levNum;
-	bool active;
-	IntrotextActor(Scene* world, const char* text, int offs, int levNum);
-	
-	virtual void tick();
-	virtual void render();
-	void explode();
+    public: 
+    
+    const char* text;
+    int textLen;
+    bool touched;
+    int offs;
+    int levNum;
+    bool active;
+    IntrotextActor(Scene* world, const char* text, int offs, int levNum);
+    
+    virtual void tick();
+    virtual void render();
+    void explode();
 };
 
 #endif

@@ -10,18 +10,18 @@ class CreditsTextActor;
 
 class CreditsTextActor : public Actor
 {
-	public: 
-	
-	const char* text;
-	int textLen;
-	int time;
-	bool special;
-	
-	CreditsTextActor(Scene* world, f32 x, f32 y, bool special, const char* text);
-	
-	virtual void tick();
-	virtual void render();
-	void explode();
+    public: 
+    
+    const char* text;
+    int textLen;
+    int time;
+    bool special;
+    
+    CreditsTextActor(Scene* world, f32 x, f32 y, bool special, const char* text);
+    
+    virtual void tick();
+    virtual void render();
+    void explode();
 };
 
 #endif

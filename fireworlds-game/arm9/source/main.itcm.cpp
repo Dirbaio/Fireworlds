@@ -204,27 +204,29 @@ void printDebugStuff()
 {
 
     //Debug
-    int shit = BUS_CLOCK / 100 / 60 / 1024;
-    int dd = timerElapsed(0)/shit;
 
     iprintf("\x1b[1;1HFireworlds beta - By Dirbaio!");
-    iprintf("\x1b[3;1HParticle buffers: %d %d %d/%d \n %d %d    ",
-        sc->buffer10->ptsCount,
-        sc->buffer20->ptsCount,
-        sc->buffer60->ptsCount, sc->buffer60b->ptsCount,
-        sc->buffer180->ptsCount,
-        sc->buffer1000->ptsCount);
+    iprintf("\x1b[3;1H Particles:", sc->buffer10->ptsCount);
+    iprintf("\x1b[4;1H   10 : %03d", sc->buffer10->ptsCount);
+    iprintf("\x1b[5;1H   20 : %03d", sc->buffer20->ptsCount);
+    iprintf("\x1b[6;1H   60 : %03d", sc->buffer60->ptsCount);
+    iprintf("\x1b[7;1H   60b: %03d", sc->buffer60b->ptsCount);
+    iprintf("\x1b[8;1H  180 : %03d", sc->buffer180->ptsCount);
+    iprintf("\x1b[9;1H 1000 : %03d", sc->buffer1000->ptsCount);
 
-    printf("\x1b[10;1HActors:  %d         ", sc->actors.size());
-    printf("\x1b[11;1HCPU:  %d %%        ", dd);
-    printf("\x1b[12;1HCPU7: %d %%        ", PA_Transfer->cpuUsage);
-    printf("\x1b[13;1HGFX_RDLINES: %d        ", GFX_RDLINES );
-    printf("\x1b[14;1HVertex RAM: %d        ", GFX_VERTEX_RAM_USAGE);
-    printf("\x1b[15;1HPolygon RAM: %d        ", GFX_POLYGON_RAM_USAGE);
-    printf("\x1b[16;1HEmulator?: %d        ", runningInEmu);
 
-    struct mallinfo inf = mallinfo();
-    printf("\x1b[8;1HRAM  %d       ", inf.uordblks);
+    iprintf("\x1b[11;1H3D:");
+    iprintf("\x1b[12;1HGFX_RDLINES: %03d", GFX_RDLINES );
+    iprintf("\x1b[13;1HVertex RAM: %04d", GFX_VERTEX_RAM_USAGE);
+    iprintf("\x1b[14;1HPolygon RAM: %04d", GFX_POLYGON_RAM_USAGE);
+
+    //iprintf("\x1b[10;1HActors:  %d         ", sc->actors.size());
+    iprintf("\x1b[3;15HCPU:");
+    iprintf("\x1b[7;15Hdebug:   %02d %%", timerElapsed(0)*100*60*1024 / BUS_CLOCK);
+    //iprintf("\x1b[12;1HCPU7: %d %%        ", PA_Transfer->cpuUsage);
+
+    //struct mallinfo inf = mallinfo();
+    //printf("\x1b[8;1HRAM  %d       ", inf.uordblks);
 
 }
 
@@ -291,6 +293,7 @@ int main()
     }
 
     #ifdef NITROFS
+        sysSetBusOwners(true, true); // give ARM9 access to the cart
         iprintf("Trying to init NitroFS...\n");
         if(!nitroFSInit(NULL))
             error("FATAL ERROR: Couldnt init NitroFS.\nHalting.");
@@ -302,6 +305,7 @@ int main()
         if(chdir_err != 0)
             error("FATAL ERROR: Couldnt chdir to /data/fworlds\nMake sure you've placed\nall the game files there.\nHalting.");
     #endif
+
     iprintf("Trying to open test file...\n");
     FILE* testLevel = fopen("01.dgl", "rb");
     if(testLevel == NULL) error("FATAL ERROR: Couldnt open test\nfile.Make sure you copied the\ndata folder in the root\nof the microSD.");
@@ -367,7 +371,6 @@ int main()
     keysSetRepeat(20, 6);
     while(1)
     {
-
         if(sc->videoPath != NULL)
         {
             oamClear(&oamSub, 0, 0);
@@ -408,12 +411,23 @@ int main()
         inputKeysRepeat = keysDownRepeat();
         touchRead(&inputTouch);
 
+        if(inputKeysDown & KEY_R) {
+            debugShown = !debugShown;
+            if(debugShown) bgShow(4);
+            else bgHide(4);
+        }
+
+        if(inputKeysDown & KEY_L)
+            doMotionBlur = !doMotionBlur;
+
+        oamClear(&oamSub, 0, 0);
         subFrameStart();
 
         renderBg();
 
         //Update scene
         sc->tick();
+        iprintf("\x1b[4;15Htick:    %02d %%", timerElapsed(0)*100*60*1024 / BUS_CLOCK);
 
         if(doMotionBlur) {
             //Do motion blur
@@ -422,15 +436,21 @@ int main()
         renderScenePerspective();
         renderSceneOrtho();
 
+        oamUpdate(&oamSub);
+        glFlush(GL_TRANS_MANUALSORT);
+        iprintf("\x1b[5;15Hrender:  %02d %%", timerElapsed(0)*100*60*1024 / BUS_CLOCK);
+
+        //Music updates
+        AS_SoundVBL();
+        musicTick();
+        iprintf("\x1b[6;15Hmusic:   %02d %%", timerElapsed(0)*100*60*1024 / BUS_CLOCK);
+
         //Debug!
         if(debugShown)
         {
             printDebugStuff();
             oamClear(&oamSub, 0, 0);
         }
-
-        oamUpdate(&oamSub);
-        glFlush(GL_TRANS_MANUALSORT);
 
         swiWaitForVBlank();
         if(slowMotion)
@@ -440,32 +460,12 @@ int main()
             swiWaitForVBlank();
         }
 
+
         if(doMotionBlur) {
             //Do motion blur for next frame.
             motionBlurFrame();
             REG_DISPCAPCNT |= DCAP_ENABLE;
         }
-
-        //Music updates
-        AS_SoundVBL();
-        musicTick();
-
-        oamClear(&oamSub, 0, 0);
-
-        if(inputKeysDown & KEY_R)
-        {
-            debugShown = !debugShown;
-            if(debugShown) bgShow(4);
-            else bgHide(4);
-        }
-
-        if(inputKeysDown & KEY_L)
-            doMotionBlur = !doMotionBlur;
-
-        int shit = BUS_CLOCK / 100 / 60 / 1024;
-        int dd = timerElapsed(0)/shit;
-        if(dd > 90) printf("\x1b[16;1HLAG");
-        else printf("\x1b[16;1H...");
 
         timerStop(0);
 
